@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
         mc:Ignorable="d"
 		DataContext="{Binding ServerInformationViewModel, Source={StaticResource DependencyInjector}}"
-        Height="300" Width="350" Background="White" >
+        d:DesignHeight="300" d:DesignWidth="350" 
+        Background="White">
 
 	<dxmvvm:Interaction.Behaviors>
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
@@ -20,19 +22,19 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel HorizontalAlignment="Stretch" Margin="10">
-			<Label Content="_Server Name" />
+			<Label Content="{x:Static ln:Localization.ServerName}" />
 			<TextBox Margin="0,0,0,4" Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-			<Label Content="Server _Address" />
+			<Label Content="{x:Static ln:Localization.ServerAddress}" />
 			<TextBox Margin="0,0,0,4" Text="{Binding ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-			<Label Content="Server _Port" />
+			<Label Content="{x:Static ln:Localization.ServerPort}" />
 			<TextBox Margin="0,0,0,4" Text="{Binding ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-			<Label Content="_Mod list file" />
+			<Label Content="{x:Static ln:Localization.ModListFile}" />
 			<TextBox Margin="0,0,0,4"  Text="{Binding ModListPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-			<Button Content="Browse for file" Command="{Binding BrowseForFile}" />
+			<Button Content="{x:Static ln:Localization.BrowseForFile}" Command="{Binding BrowseForFile}" />
 		</StackPanel>
 
 		<Grid Grid.Row="1">
@@ -42,9 +44,9 @@
 				<ColumnDefinition Width="120" />
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Column="1" Content="_OK" Margin="5" Height="25" Command="{Binding DialogAccept}" IsDefault="True" />
+			<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Margin="5" Height="25" Command="{Binding DialogAccept}" IsDefault="True" />
 
-			<Button Grid.Column="2" Content="_Cancel" Margin="5" Command="{Binding DialogCancel}" IsCancel="True" />
+			<Button Grid.Column="2" Content="{x:Static ln:Localization.Cancel}" Margin="5" Command="{Binding DialogCancel}" IsCancel="True" />
 		</Grid>
 	</Grid>
 </UserControl>

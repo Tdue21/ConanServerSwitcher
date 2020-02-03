@@ -21,35 +21,12 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-using ConanServerSwitcher.Interfaces;
-using ConanServerSwitcher.Services;
-using ConanServerSwitcher.ViewModels;
-using Unity;
-using Unity.Lifetime;
+using DevExpress.Mvvm;
 
-namespace ConanServerSwitcher
+namespace ConanServerSwitcher.ViewModels
 {
-	public class DependencyInjector
+	public class ApplicationSettingsViewModel : ViewModelBase
 	{
-		private readonly IUnityContainer _container;
-
-		public DependencyInjector()
-		{
-			_container = new UnityContainer().RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager())
-			                                 .RegisterType<IApplicationConfigurationService, ApplicationConfigurationService>(new ContainerControlledLifetimeManager())
-
-			                                 .RegisterType<MainViewModel>()
-			                                 .RegisterType<ServerInformationViewModel>()
-			                                 .RegisterType<ApplicationSettingsViewModel>()
-				;
-		}
-
-		public MainViewModel MainViewModel => _container.Resolve<MainViewModel>();
 		
-		public ServerInformationViewModel ServerInformationViewModel => _container.Resolve<ServerInformationViewModel>();
-		
-		public ApplicationSettingsViewModel ApplicationSettingsViewModel => _container.Resolve<ApplicationSettingsViewModel>();
-
-
 	}
 }

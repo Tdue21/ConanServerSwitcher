@@ -78,20 +78,20 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteSettingsDialog()
 		{
-			ApplicationSettingsWindow?.Show(null);
+			ApplicationSettingsWindow?.Show("ApplicationSettingsView", null, this);
 		}
 
 		private void ExecuteAddServer() => ExecuteEditServer(new ServerInformation());
 
 		private void ExecuteEditServer(ServerInformation arg)
 		{
-			EditServerWindow?.Show(null, arg, this);
+			EditServerWindow?.Show("ServerInformationView", arg, this);
 			ExecuteInitialize();
 		}
 
 		private void ExecuteRemoveServer(ServerInformation arg)
 		{
-			if (AcceptMessageBox("Delete server entry", "Are you sure you wish to the delete this server entry?"))
+			if (AcceptMessageBox(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
 			{
 				var result = _configurationService.CurrentConfiguration.ServerInformation.FirstOrDefault(i => i.Equals(arg));
 				if (result != null)
