@@ -17,7 +17,7 @@ namespace ConanServerSwitcher.Views
 	/// <summary>
 	/// Interaction logic for ServerInformationView.xaml
 	/// </summary>
-	public partial class ServerInformationView : Window
+	public partial class ServerInformationView : UserControl
 	{
 		public ServerInformationView()
 		{

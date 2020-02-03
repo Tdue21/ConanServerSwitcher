@@ -22,6 +22,7 @@
 // ****************************************************************************
 
 using System;
+using System.Linq;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
@@ -40,24 +41,29 @@ namespace ConanServerSwitcher.Services
 		{
 			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
 			_configurationFile = _fileSystemService.GetLocalApplicationDataPath(ConfigFile);
+			CurrentConfiguration = new ApplicationConfiguration();
 		}
 
-		public ApplicationConfiguration LoadConfiguration()
+		public ApplicationConfiguration CurrentConfiguration { get; private set; }
+
+		public void LoadConfiguration()
 		{
 			if (_fileSystemService.Exists(_configurationFile))
 			{
-				var data   = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
+				var data = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
 				var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
 
-				return result;
+				CurrentConfiguration = result.Clone();
 			}
-
-			return new ApplicationConfiguration();
+			else
+			{
+				CurrentConfiguration = new ApplicationConfiguration();
+			}
 		}
 
-		public void SaveConfiguration(ApplicationConfiguration data)
+		public void SaveConfiguration()
 		{
-			var result = JsonConvert.SerializeObject(data);
+			var result = JsonConvert.SerializeObject(CurrentConfiguration);
 			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
 		}
 	}

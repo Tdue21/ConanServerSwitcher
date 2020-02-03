@@ -21,9 +21,12 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System;
+// ReSharper disable NonReadonlyMemberInGetHashCode
+
 namespace ConanServerSwitcher.Models
 {
-	public class ServerInformation
+	public class ServerInformation : ICloneable
 	{
 		public string Name { get; set; }
 		
@@ -32,5 +35,15 @@ namespace ConanServerSwitcher.Models
 		public string Port { get; set; }
 		
 		public string ModList { get; set; }
+
+		object ICloneable.Clone() => MemberwiseClone();
+		
+		public ServerInformation Clone() => (ServerInformation) MemberwiseClone();
+
+		protected bool Equals(ServerInformation other) => Name == other.Name;
+
+		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || obj.GetType() == GetType() && Equals((ServerInformation) obj));
+
+		public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
 	}
 }

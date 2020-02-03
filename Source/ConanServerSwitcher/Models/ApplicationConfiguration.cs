@@ -21,17 +21,26 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System;
 using System.Collections.Generic;
 
 namespace ConanServerSwitcher.Models
 {
-	public class ApplicationConfiguration
+	public class ApplicationConfiguration : ICloneable
 	{
 		public ApplicationConfiguration()
 		{
 			ServerInformation = new List<ServerInformation>();
 		}
 
+		public string SteamExecutable { get; set; }
+		
+		public string ConanInstallPath { get; set; }
+
 		public List<ServerInformation> ServerInformation { get; }
+		
+		object ICloneable.Clone() => MemberwiseClone();
+		
+		public ApplicationConfiguration Clone() => (ApplicationConfiguration) MemberwiseClone();
 	}
 }

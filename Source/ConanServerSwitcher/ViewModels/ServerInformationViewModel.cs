@@ -21,34 +21,96 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-using System.Threading.Tasks;
+using System;
+using System.Linq;
 using System.Windows.Input;
+using ConanServerSwitcher.Interfaces;
+using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
 
 namespace ConanServerSwitcher.ViewModels
 {
 	public class ServerInformationViewModel : ViewModelBase
 	{
-		public string ServerName { get; set; }
-		
-		public string ServerAddress { get; set; }
-		
-		public string ServerPort { get; set; }
-		
-		public string ModListPath { get; set; }
+		private readonly IApplicationConfigurationService _configurationService;
 
-		public ICommand DialogAccept => new AsyncCommand(ExecuteDialogAccept);
-		
-		public ICommand DialogCancel => new AsyncCommand(ExecuteDialogCancel);
-
-		private Task ExecuteDialogAccept()
+		public ServerInformationViewModel(IApplicationConfigurationService configurationService)
 		{
-			throw new System.NotImplementedException();
+			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
 		}
 
-		private Task ExecuteDialogCancel()
+		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+
+		public string ServerName 
+		{ 
+			get => GetProperty(() => ServerName); 
+			set => SetProperty(() => ServerName, value);
+		}
+		
+		public string ServerAddress
 		{
-			throw new System.NotImplementedException();
+			get => GetProperty(() => ServerAddress);
+			set => SetProperty(() => ServerAddress, value);
+		}
+
+		public string ServerPort
+		{
+			get => GetProperty(() => ServerPort);
+			set => SetProperty(() => ServerPort, value);
+		}
+
+		public string ModListPath
+		{
+			get => GetProperty(() => ModListPath);
+			set => SetProperty(() => ModListPath, value);
+		}
+
+		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
+
+		private void ExecuteInitialize()
+		{
+		}
+
+		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
+		
+		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+
+		private void ExecuteDialogAccept()
+		{
+			var original = _configurationService.CurrentConfiguration.ServerInformation.FirstOrDefault(s => s.Name.Equals(ServerName));
+			if(original != null)
+			{
+				_configurationService.CurrentConfiguration.ServerInformation.Remove(original);
+			}
+
+			_configurationService.CurrentConfiguration
+			                     .ServerInformation
+			                     .Add(new ServerInformation
+			                          {
+				                          Name    = ServerName,
+				                          Address = ServerAddress,
+				                          Port    = ServerPort,
+				                          ModList = ModListPath
+			                          });
+			_configurationService.SaveConfiguration();
+
+			CurrentWindowService?.Close();
+		}
+
+		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
+
+		protected override void OnParameterChanged(object parameter)
+		{
+			base.OnParameterChanged(parameter);
+
+			if (parameter is ServerInformation server)
+			{
+				ServerName = server.Name;
+				ServerAddress = server.Address;
+				ServerPort = server.Port;
+				ModListPath = server.ModList;
+
+			}
 		}
 	}
 }

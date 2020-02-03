@@ -23,7 +23,8 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
@@ -38,49 +39,69 @@ namespace ConanServerSwitcher.ViewModels
 		public MainViewModel(IApplicationConfigurationService configurationService)
 		{
 			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-			Servers = new ObservableCollection<ServerInformation>
-			          {
-				          new ServerInformation { Name = "The Green Isle", Address = "89.127.35.254", Port = "7777", ModList = null },
-				          new ServerInformation { Name = "Shades & Fangs", Address = "51.89.70.206", Port  = "7777", ModList = null },
-			          };
+			Servers = new ObservableCollection<ServerInformation>();
 		}
 
 		public ObservableCollection<ServerInformation> Servers { get; set; }
 
-		public ICommand Initialize => new AsyncCommand(ExecuteInitialize);
+		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+
+		public IWindowService EditServerWindow => GetService<IWindowService>("EditServerWindow");
 		
-		public ICommand CloseApplication => new AsyncCommand(ExecuteCloseApplication);
+		public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
+		
+		public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 
-		public ICommand AddServer => new AsyncCommand(ExecuteAddServer);
+		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
+		
+		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
 
-		public ICommand<ServerInformation> EditServer => new AsyncCommand<ServerInformation>(ExecuteEditServer);
+		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
 
-		public ICommand<ServerInformation> RemoveServer => new AsyncCommand<ServerInformation>(ExecuteRemoveServer);
+		public ICommand AddServer => new DelegateCommand(ExecuteAddServer);
 
-		private Task ExecuteInitialize()
+		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer);
+
+		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
+
+		private void ExecuteInitialize()
 		{
-			return Task.FromResult(false);
-			//throw new NotImplementedException();
+			_configurationService.LoadConfiguration();
+			Servers.Clear();
+			foreach (var information in _configurationService.CurrentConfiguration.ServerInformation)
+			{
+				Servers.Add(information);
+			}
 		}
 
-		private Task ExecuteCloseApplication()
+		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
+
+		private void ExecuteSettingsDialog()
 		{
-			throw new NotImplementedException();
+			ApplicationSettingsWindow?.Show(null);
 		}
 
-		private Task ExecuteAddServer()
+		private void ExecuteAddServer() => ExecuteEditServer(new ServerInformation());
+
+		private void ExecuteEditServer(ServerInformation arg)
 		{
-			throw new NotImplementedException();
+			EditServerWindow?.Show(null, arg, this);
+			ExecuteInitialize();
 		}
 
-		private Task ExecuteEditServer(ServerInformation arg)
+		private void ExecuteRemoveServer(ServerInformation arg)
 		{
-			throw new NotImplementedException();
+			if (AcceptMessageBox("Delete server entry", "Are you sure you wish to the delete this server entry?"))
+			{
+				var result = _configurationService.CurrentConfiguration.ServerInformation.FirstOrDefault(i => i.Equals(arg));
+				if (result != null)
+				{
+					_configurationService.CurrentConfiguration.ServerInformation.Remove(result);
+					_configurationService.SaveConfiguration();
+				}
+			}
 		}
 
-		private Task ExecuteRemoveServer(ServerInformation arg)
-		{
-			throw new NotImplementedException();
-		}
+		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 	}
 }

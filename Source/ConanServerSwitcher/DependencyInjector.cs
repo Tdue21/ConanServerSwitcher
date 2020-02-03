@@ -25,6 +25,7 @@ using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Services;
 using ConanServerSwitcher.ViewModels;
 using Unity;
+using Unity.Lifetime;
 
 namespace ConanServerSwitcher
 {
@@ -35,7 +36,7 @@ namespace ConanServerSwitcher
 		public DependencyInjector()
 		{
 			_container = new UnityContainer().RegisterType<IFileSystemService, FileSystemService>()
-			                                 .RegisterType<IApplicationConfigurationService, ApplicationConfigurationService>()
+			                                 .RegisterType<IApplicationConfigurationService, ApplicationConfigurationService>(new ContainerControlledLifetimeManager())
 			                                 .RegisterType<MainViewModel>()
 			                                 .RegisterType<ServerInformationViewModel>()
 				;

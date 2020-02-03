@@ -28,15 +28,23 @@ namespace ConanServerSwitcher.Interfaces
 	public interface IApplicationConfigurationService
 	{
 		/// <summary>
+		/// Gets the current configuration.
+		/// </summary>
+		/// <value>
+		/// The current configuration.
+		/// </value>
+		ApplicationConfiguration CurrentConfiguration { get; }
+		
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		ApplicationConfiguration LoadConfiguration();
+		void LoadConfiguration();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="data"></param>
-		void SaveConfiguration(ApplicationConfiguration data);
+		void SaveConfiguration();
 	}
 }

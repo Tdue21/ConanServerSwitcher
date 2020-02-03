@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:ConanServerSwitcher"
         xmlns:viewModels="clr-namespace:ConanServerSwitcher.ViewModels"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         mc:Ignorable="d"
         Title="Conan Exiles Easy Server Switcher" Height="600" Width="451"
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
-        d:DataContext="{d:DesignInstance {x:Type viewModels:DesignMainViewModel}, IsDesignTimeCreatable=True}"
         >
 	<Window.Resources>
 		<ControlTemplate x:Key="ActionButtons" TargetType="{x:Type Button}">
@@ -54,9 +54,54 @@
 
 	<dxmvvm:Interaction.Behaviors>
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
+		<dxmvvm:CurrentWindowService />
+		<dxmvvm:MessageBoxService />
+
+		<dxmvvm:WindowService x:Name="EditServerWindow" 
+		                      AllowSetWindowOwner="True" 
+		                      Title="Edit Server" 
+		                      WindowShowMode="Dialog" 
+		                      WindowStartupLocation="CenterOwner">
+			<dxmvvm:WindowService.ViewTemplate>
+				<DataTemplate>
+					<views:ServerInformationView />
+				</DataTemplate>
+			</dxmvvm:WindowService.ViewTemplate>
+			<dxmvvm:WindowService.WindowStyle>
+				<Style TargetType="Window">
+					<Setter Property="Width" Value="370" />
+					<Setter Property="Height" Value="370" />
+					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
+					<Setter Property="ResizeMode" Value="NoResize" />
+					<Setter Property="ShowInTaskbar" Value="False"></Setter>
+				</Style>
+			</dxmvvm:WindowService.WindowStyle>
+		</dxmvvm:WindowService>
+
+		<dxmvvm:WindowService x:Name="ApplicationSettingsWindow"
+		                      AllowSetWindowOwner="True"
+		                      Title="Edit Server"
+		                      WindowShowMode="Dialog"
+		                      WindowStartupLocation="CenterOwner">
+			<dxmvvm:WindowService.ViewTemplate>
+				<DataTemplate>
+					<views:ServerInformationView />
+				</DataTemplate>
+			</dxmvvm:WindowService.ViewTemplate>
+			<dxmvvm:WindowService.WindowStyle>
+				<Style TargetType="Window">
+					<Setter Property="Width" Value="370" />
+					<Setter Property="Height" Value="370" />
+					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
+					<Setter Property="ResizeMode" Value="NoResize" />
+					<Setter Property="ShowInTaskbar" Value="False"></Setter>
+				</Style>
+			</dxmvvm:WindowService.WindowStyle>
+		</dxmvvm:WindowService>
+
 	</dxmvvm:Interaction.Behaviors>
 
-	<Grid>
+	<Grid Margin="0,2,0,-2">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
@@ -69,21 +114,37 @@
 				<DataTemplate>
 					<DockPanel>
 						<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+							<Button Width="32" Height="32"
+							        Command="{Binding ElementName=ServerList, Path=DataContext.RunGame}"
+							        CommandParameter="{Binding}" 
+							        Template="{DynamicResource ActionButtons}">
+								<Image Source="../Assets/play.png"></Image>
+							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.EditServer}"
+							        CommandParameter="{Binding}"
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/pencil.png" Opacity="0.5"></Image>
+								<Image Source="../Assets/pencil-outline.png"></Image>
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RemoveServer}" 
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/remove.png" Opacity="0.5"></Image>
+								<Image Source="../Assets/trash-can-outline.png"></Image>
 							</Button>
 						</StackPanel>
 
 						<StackPanel Orientation="Vertical">
 							<TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
-							<TextBlock Text="{Binding Address}" />
+							<TextBlock>
+								<TextBlock.Text>
+									<MultiBinding StringFormat="{}{0}:{1}">
+										<MultiBinding.Bindings>
+											<Binding Path="Address" />
+											<Binding Path="Port" />
+										</MultiBinding.Bindings>
+									</MultiBinding>
+								</TextBlock.Text>
+							</TextBlock>
 						</StackPanel>
 
 
@@ -97,10 +158,19 @@
 				<ColumnDefinition Width="120" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="120" />
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Column="0" Content="_Add Server" Margin="5" Height="25" Command="{Binding AddServer}" />
-			<Button Grid.Column="2" Content="_Close" Margin="5" Height="25" Command="{Binding CloseApplication}" />
+			<Button Grid.Column="0" Margin="5" Height="25" Command="{Binding AddServer}">
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+						<Image Source="../Assets/plus-circle.png" Height="16" Width="16" Margin="0"></Image>
+						<Label Padding="0" Margin="10,0">_Add Server</Label>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+			<Button Grid.Column="2" Content="_Settings" Margin="5" Height="25" Command="{Binding SettingsDialog}"/>
+			<Button Grid.Column="3" Content="_Close" Margin="5" Height="25" Command="{Binding CloseApplication}" />
 		</Grid>
 
 	</Grid>
