@@ -6,8 +6,9 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
-        mc:Ignorable="d"
-        Title="{x:Static ln:Localization.MainWindowTitle}" Height="600" Width="451"
+        mc:Ignorable="d" Height="500" Width="450"
+        Title="{x:Static ln:Localization.MainWindowTitle}" 
+		d:DataContext="{d:DesignData Source=/SampleData/MainViewModelSampleData.xaml}"
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
         >
 	<Window.Resources>
@@ -69,8 +70,8 @@
 			</dxmvvm:WindowService.ViewTemplate>
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
-					<Setter Property="Width" Value="370" />
-					<Setter Property="Height" Value="370" />
+					<Setter Property="Width" Value="350" />
+					<Setter Property="Height" Value="250" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False"></Setter>
@@ -92,17 +93,18 @@
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
 					<Setter Property="Width" Value="350" />
-					<Setter Property="Height" Value="200" />
+					<Setter Property="Height" Value="170" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
-					<Setter Property="ShowInTaskbar" Value="False"></Setter>
+					<Setter Property="ShowInTaskbar" Value="False" />
+					<Setter Property="Icon" Value="{x:Null}" />
 				</Style>
 			</dxmvvm:WindowService.WindowStyle>
 		</dxmvvm:WindowService>
 
 	</dxmvvm:Interaction.Behaviors>
 
-	<Grid Margin="0,2,0,-2">
+	<Grid Margin="10">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
@@ -119,18 +121,18 @@
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RunGame}"
 							        CommandParameter="{Binding}" 
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/play.png"></Image>
+								<Image Source="../Assets/play.png" Width="16" Height="16" />
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.EditServer}"
 							        CommandParameter="{Binding}"
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/pencil-outline.png"></Image>
+								<Image Source="../Assets/pencil-outline.png" Width="16" Height="16" />
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RemoveServer}" 
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/trash-can-outline.png"></Image>
+								<Image Source="../Assets/trash-can-outline.png" Width="16" Height="16" />
 							</Button>
 						</StackPanel>
 
@@ -159,10 +161,11 @@
 				<ColumnDefinition Width="120" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="6" />
 				<ColumnDefinition Width="120" />
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Column="0" Margin="5" Height="25" Command="{Binding AddServer}">
+			<Button Grid.Column="0" Command="{Binding AddServer}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 						<Image Source="../Assets/plus-circle.png" Height="16" Width="16" Margin="0"></Image>
@@ -170,8 +173,8 @@
 					</StackPanel>
 				</Button.Content>
 			</Button>
-			<Button Grid.Column="2" Content="{x:Static ln:Localization.Settings}" Margin="5" Height="25" Command="{Binding SettingsDialog}"/>
-			<Button Grid.Column="3" Content="{x:Static ln:Localization.Close}" Margin="5" Height="25" Command="{Binding CloseApplication}" />
+			<Button Grid.Column="2" Content="{x:Static ln:Localization.Settings}" Command="{Binding SettingsDialog}"/>
+			<Button Grid.Column="4" Content="{x:Static ln:Localization.Close}" Command="{Binding CloseApplication}" />
 		</Grid>
 
 	</Grid>

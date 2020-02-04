@@ -69,10 +69,12 @@
     <Compile Include="ViewModels\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerInformationViewModel.cs" />
-    <DesignData Include="SampleData\ServerInformationSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
+    <Compile Include="Views\ApplicationSettingsView.xaml.cs">
+      <DependentUpon>ApplicationSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerInformationView.xaml.cs">
+      <DependentUpon>ServerInformationView.xaml</DependentUpon>
+    </Compile>
     <DesignData Include="SampleData\MainViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

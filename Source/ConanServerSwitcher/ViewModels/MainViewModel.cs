@@ -76,16 +76,13 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
 
-		private void ExecuteSettingsDialog()
-		{
-			ApplicationSettingsWindow?.Show("ApplicationSettingsView", null, this);
-		}
+		private void ExecuteSettingsDialog() => ApplicationSettingsWindow?.Show(null);
 
 		private void ExecuteAddServer() => ExecuteEditServer(new ServerInformation());
 
 		private void ExecuteEditServer(ServerInformation arg)
 		{
-			EditServerWindow?.Show("ServerInformationView", arg, this);
+			EditServerWindow?.Show(null, arg, this);
 			ExecuteInitialize();
 		}
 

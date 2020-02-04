@@ -7,7 +7,7 @@
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
         mc:Ignorable="d"
 		DataContext="{Binding ServerInformationViewModel, Source={StaticResource DependencyInjector}}"
-        d:DesignHeight="300" d:DesignWidth="350" 
+        d:DesignHeight="220" d:DesignWidth="350" 
         Background="White">
 
 	<dxmvvm:Interaction.Behaviors>
@@ -15,38 +15,65 @@
 		<dxmvvm:CurrentWindowService />
 	</dxmvvm:Interaction.Behaviors>
 
-	<Grid>
+	<Grid Margin="10">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel HorizontalAlignment="Stretch" Margin="10">
-			<Label Content="{x:Static ln:Localization.ServerName}" />
-			<TextBox Margin="0,0,0,4" Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
 
-			<Label Content="{x:Static ln:Localization.ServerAddress}" />
-			<TextBox Margin="0,0,0,4" Text="{Binding ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+		<Label Grid.Row="0" Grid.Column="0" Padding="0,5,0,0"
+		       Content="{x:Static ln:Localization.ServerName}" />
 
-			<Label Content="{x:Static ln:Localization.ServerPort}" />
-			<TextBox Margin="0,0,0,4" Text="{Binding ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+		         Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-			<Label Content="{x:Static ln:Localization.ModListFile}" />
-			<TextBox Margin="0,0,0,4"  Text="{Binding ModListPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+		<Label Grid.Row="2" Grid.Column="0" Padding="0,5,0,0" 
+		       Content="{x:Static ln:Localization.ServerAddress}" />
 
-			<Button Content="{x:Static ln:Localization.BrowseForFile}" Command="{Binding BrowseForFile}" />
-		</StackPanel>
+		<TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+		         Text="{Binding ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-		<Grid Grid.Row="1">
+		<Label Grid.Row="4" Grid.Column="0" Padding="0,5,0,0"
+		       Content="{x:Static ln:Localization.ServerPort}" />
+
+		<TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+		         Text="{Binding ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label Grid.Row="6" Grid.Column="0" Padding="0,5,0,0"
+		       Content="{x:Static ln:Localization.ModListFile}" />
+
+		<TextBox Grid.Row="7" Grid.Column="0" 
+		         Text="{Binding ModListPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+		<Button Grid.Row="7" Grid.Column="1" 
+		        Command="{Binding BrowseForFile}" Background="{x:Null}" BorderThickness="0">
+			<Button.Content>
+				<Image Source="../Assets/folder-open.png" Width="16" Height="16" />
+			</Button.Content>
+		</Button>
+
+		<Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="120" />
-				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="6" />
+				<ColumnDefinition Width="100" />
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Margin="5" Height="25" Command="{Binding DialogAccept}" IsDefault="True" />
-
-			<Button Grid.Column="2" Content="{x:Static ln:Localization.Cancel}" Margin="5" Command="{Binding DialogCancel}" IsCancel="True" />
+			<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Command="{Binding DialogAccept}" IsDefault="True" />
+			<Button Grid.Column="4" Content="{x:Static ln:Localization.Cancel}" Command="{Binding DialogCancel}" IsCancel="True" />
 		</Grid>
 	</Grid>
 </UserControl>

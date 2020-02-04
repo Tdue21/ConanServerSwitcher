@@ -2,6 +2,7 @@
                           xmlns:models="clr-namespace:ConanServerSwitcher.Models"
                           IsInDesignMode="True">
 	<viewModels:MainViewModel.Servers>
+		<models:ServerInformation Name="Rise of the Overlords" Address="xx.xx.xx.xx" Port="1234" />
 		<models:ServerInformation Name="The Green Isle" Address="xx.xx.xx.xx" Port="7777" />
 		<models:ServerInformation Name="Shades &amp; Fangs" Address="xx.xx.xx.xx" Port="7777" />
 	</viewModels:MainViewModel.Servers>
