@@ -133,6 +133,15 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Executable files (*.exe)|*.exe.
+        /// </summary>
+        public static string ExecuteFilesFilter {
+            get {
+                return ResourceManager.GetString("ExecuteFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conan Exiles _Game Folder.
         /// </summary>
         public static string GameFolder {
@@ -151,6 +160,15 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text files (*.txt)|*.txt|All files (*.*)|*.*.
+        /// </summary>
+        public static string ModFilesFilter {
+            get {
+                return ResourceManager.GetString("ModFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Mod list file.
         /// </summary>
         public static string ModListFile {
@@ -165,6 +183,33 @@ namespace ConanServerSwitcher.Localization {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select game root folder.
+        /// </summary>
+        public static string SelectGameRootFolder {
+            get {
+                return ResourceManager.GetString("SelectGameRootFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select modlist file.
+        /// </summary>
+        public static string SelectModlistFile {
+            get {
+                return ResourceManager.GetString("SelectModlistFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Steam executable.
+        /// </summary>
+        public static string SelectSteamExecutable {
+            get {
+                return ResourceManager.GetString("SelectSteamExecutable", resourceCulture);
             }
         }
         

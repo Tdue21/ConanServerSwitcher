@@ -111,7 +111,7 @@
 		</Grid.RowDefinitions>
 
 		<ListView Grid.Row="0" x:Name="ServerList"
-		          ItemsSource="{Binding Servers}" 
+		          ItemsSource="{Binding Servers}" BorderThickness="0" 
 		          HorizontalContentAlignment="Stretch" Background="White">
 			<ListView.ItemTemplate>
 				<DataTemplate>
@@ -121,18 +121,18 @@
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RunGame}"
 							        CommandParameter="{Binding}" 
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/play.png" Width="16" Height="16" />
+								<Image Source="../Assets/play.png" Width="24" Height="24" />
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.EditServer}"
 							        CommandParameter="{Binding}"
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/pencil-outline.png" Width="16" Height="16" />
+								<Image Source="../Assets/pencil-outline.png" Width="24" Height="24" />
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RemoveServer}" 
 							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/trash-can-outline.png" Width="16" Height="16" />
+								<Image Source="../Assets/trash-can-outline.png" Width="24" Height="24" />
 							</Button>
 						</StackPanel>
 

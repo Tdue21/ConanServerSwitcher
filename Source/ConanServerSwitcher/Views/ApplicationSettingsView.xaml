@@ -12,6 +12,12 @@
 	<dxmvvm:Interaction.Behaviors>
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
 		<dxmvvm:CurrentWindowService />
+		<dxmvvm:OpenFileDialogService Filter="{x:Static ln:Localization.ExecuteFilesFilter}" 
+		                              FilterIndex="0" Multiselect="False" ShowReadOnly="False" 
+		                              Title="{x:Static ln:Localization.SelectSteamExecutable}" />
+		<dxmvvm:FolderBrowserDialogService Description="{x:Static ln:Localization.SelectGameRootFolder}" 
+		                                   StartPath="" RootFolder="MyComputer" ShowNewFolderButton="False" />
+
 	</dxmvvm:Interaction.Behaviors>
 
 	<Grid Margin="10">
@@ -48,7 +54,7 @@
 		         Text="{Binding GameFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 		<Button  Grid.Column="1" Grid.Row="3" 
-		         Command="{Binding BrowseForFile}" Width="20" Background="{x:Null}" BorderThickness="0">
+		         Command="{Binding BrowseForFolder}" Width="20" Background="{x:Null}" BorderThickness="0">
 			<Button.Content>
 				<Image Source="../Assets/folder-open.png" Width="16" Height="16" />
 			</Button.Content>

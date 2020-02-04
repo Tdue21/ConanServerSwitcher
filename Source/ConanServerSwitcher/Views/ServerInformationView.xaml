@@ -13,10 +13,13 @@
 	<dxmvvm:Interaction.Behaviors>
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
 		<dxmvvm:CurrentWindowService />
+		<dxmvvm:OpenFileDialogService Filter="{x:Static ln:Localization.ModFilesFilter}" 
+		                              FilterIndex="0" Multiselect="False" ShowReadOnly="False" 
+		                              Title="{x:Static ln:Localization.SelectModlistFile}" />
 	</dxmvvm:Interaction.Behaviors>
 
 	<Grid Margin="10">
-		<Grid.RowDefinitions>
+		<Grid.RowDefinitions>	 
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />

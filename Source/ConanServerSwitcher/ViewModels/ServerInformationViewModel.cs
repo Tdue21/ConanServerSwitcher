@@ -41,6 +41,8 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 
+		public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
+
 		public string ServerName 
 		{ 
 			get => GetProperty(() => ServerName); 
@@ -67,13 +69,15 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 
-		private void ExecuteInitialize()
-		{
-		}
-
 		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
 		
 		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+
+		public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
+															 
+		private void ExecuteInitialize()
+		{
+		}
 
 		private void ExecuteDialogAccept()
 		{
@@ -98,6 +102,14 @@ namespace ConanServerSwitcher.ViewModels
 		}
 
 		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
+
+		private void ExecuteBrowseForFile()
+		{
+			if (OpenFileDialogService.ShowDialog())
+			{
+				ModListPath = OpenFileDialogService.GetFullFileName();
+			}
+		}
 
 		protected override void OnParameterChanged(object parameter)
 		{

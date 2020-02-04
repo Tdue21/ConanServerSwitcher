@@ -35,7 +35,7 @@ namespace ConanServerSwitcher.Models
 
 		public string SteamExecutable { get; set; }
 		
-		public string ConanInstallPath { get; set; }
+		public string GameFolder { get; set; }
 
 		public List<ServerInformation> ServerInformation { get; }
 		

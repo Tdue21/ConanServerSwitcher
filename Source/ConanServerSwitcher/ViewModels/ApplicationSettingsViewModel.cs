@@ -21,12 +21,82 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System;
+using System.Windows.Input;
+using ConanServerSwitcher.Interfaces;
 using DevExpress.Mvvm;
 
 namespace ConanServerSwitcher.ViewModels
 {
 	public class ApplicationSettingsViewModel : ViewModelBase
 	{
+		private readonly IApplicationConfigurationService _configurationService;
+
+		public ApplicationSettingsViewModel(IApplicationConfigurationService configurationService)
+		{
+			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+		}
 		
+		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
+
+		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+
+		public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
+		
+		public IFolderBrowserDialogService FolderBrowserDialogService => GetService<IFolderBrowserDialogService>();
+
+		public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
+
+		public ICommand BrowseForFolder => new DelegateCommand(ExecuteBrowseForFolder);
+
+		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
+
+		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+
+		public string SteamExe 
+		{ 
+			get => GetProperty(() => SteamExe); 
+			set => SetProperty(() => SteamExe, value);
+		}
+
+		public string GameFolder
+		{
+			get => GetProperty(() => GameFolder);
+			set => SetProperty(() => GameFolder, value);
+		}
+
+		private void ExecuteInitialize()
+		{
+			_configurationService.LoadConfiguration();
+			SteamExe = _configurationService.CurrentConfiguration.SteamExecutable;
+			GameFolder = _configurationService.CurrentConfiguration.GameFolder;
+		}
+
+		private void ExecuteBrowseForFile()
+		{
+			if (OpenFileDialogService.ShowDialog())
+			{
+				SteamExe = OpenFileDialogService.GetFullFileName();
+			}
+		}
+
+		private void ExecuteBrowseForFolder()
+		{
+			if (FolderBrowserDialogService.ShowDialog())
+			{
+				GameFolder = FolderBrowserDialogService.ResultPath;
+			}
+		}
+
+		private void ExecuteDialogAccept()
+		{
+			_configurationService.CurrentConfiguration.SteamExecutable = SteamExe;
+			_configurationService.CurrentConfiguration.GameFolder = GameFolder;
+			_configurationService.SaveConfiguration();
+
+			CurrentWindowService?.Close();
+		}
+
+		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
 	}
 }

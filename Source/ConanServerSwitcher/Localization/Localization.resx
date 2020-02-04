@@ -168,4 +168,19 @@
   <data name="GameFolder" xml:space="preserve">
     <value>Conan Exiles _Game Folder</value>
   </data>
+  <data name="ModFilesFilter" xml:space="preserve">
+	  <value>Text files (*.txt)|*.txt|All files (*.*)|*.*</value>
+  </data>
+  <data name="SelectModlistFile" xml:space="preserve">
+	  <value>Select modlist file</value>
+  </data>
+  <data name="ExecuteFilesFilter" xml:space="preserve">
+	  <value>Executable files (*.exe)|*.exe</value>
+  </data>
+  <data name="SelectSteamExecutable" xml:space="preserve">
+	  <value>Select Steam executable</value>
+  </data>
+  <data name="SelectGameRootFolder" xml:space="preserve">
+	  <value>Select game root folder</value>
+  </data>
 </root>
