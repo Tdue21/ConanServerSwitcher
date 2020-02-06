@@ -22,48 +22,48 @@
 // ****************************************************************************
 
 using System;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
 using ConanServerSwitcher.Interfaces;
+using ConanServerSwitcher.Models;
 
 namespace ConanServerSwitcher.Services
 {
-	public class FileSystemService : IFileSystemService
-	{
-		/// <inheritdoc />
-		public string GetLocalApplicationDataPath(string fileName)
-		{
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			if (Directory.Exists(path))
-			{
-				var filePath = Path.Combine(path, "ConanServerSwitcher");
-				if (!Directory.Exists(filePath))
-				{
-					Directory.CreateDirectory(filePath);
-				}
+    public class ProcessManagementService : IProcessManagementService
+    {
+        private readonly IFileSystemService _fileSystemService;
 
-				return Path.Combine(filePath, fileName);
-			}
+        public ProcessManagementService(IFileSystemService fileSystemService)
+        {
+            _fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
+        }
 
-			return fileName;
-		}
+        public bool StartProcess(string executable, string gameFolder, ServerInformation args)
+        {
+            if (string.IsNullOrWhiteSpace(executable))
+            {
+                throw new ArgumentNullException(nameof(executable));
+            }
 
-		/// <inheritdoc />
-		public bool Exists(string path) => File.Exists(path);
+            if (args == null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
 
-		/// <inheritdoc />
-		public string ReadFileContent(string path, Encoding encoding) => File.ReadAllText(path, encoding);
+            var destination = _fileSystemService.GetFullPath(gameFolder, "mods", "modlist.txt");
+            _fileSystemService.CopyFile(args.ModList, destination);
 
-		/// <inheritdoc />
-		public void SaveFileContent(string path, string contents, Encoding encoding) => File.WriteAllText(path, contents, encoding);
 
-		/// <inheritdoc />
-		public string GetFullPath(params string[] args) => Path.Combine(args);
-
-		/// <inheritdoc />
-		public void CopyFile(string sourceFile, string destinationFile)
-		{
-			
-		}
-	}
+            var info = new ProcessStartInfo
+                       {
+                           FileName = executable, 
+                           Arguments = args.ToArgs(),
+                           CreateNoWindow = true,
+                       };
+            using (var proc = new Process())
+            {
+                proc.StartInfo = info;
+                return proc.Start();
+            }
+        }
+    }
 }

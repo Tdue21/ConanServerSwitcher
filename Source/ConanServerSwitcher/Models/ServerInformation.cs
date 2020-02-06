@@ -42,8 +42,16 @@ namespace ConanServerSwitcher.Models
 
 		protected bool Equals(ServerInformation other) => Name == other.Name;
 
-		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || obj.GetType() == GetType() && Equals((ServerInformation) obj));
+		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && 
+		                                           (ReferenceEquals(this, obj) || 
+		                                            obj.GetType() == GetType() && 
+		                                            Equals((ServerInformation) obj));
 
 		public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
+
+		public string ToArgs()
+		{
+			return $"{Address}:{Port}"; // TODO 
+		}
 	}
 }

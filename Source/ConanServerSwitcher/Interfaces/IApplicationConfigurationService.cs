@@ -38,13 +38,11 @@ namespace ConanServerSwitcher.Interfaces
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
 		void LoadConfiguration();
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="data"></param>
 		void SaveConfiguration();
 	}
 }

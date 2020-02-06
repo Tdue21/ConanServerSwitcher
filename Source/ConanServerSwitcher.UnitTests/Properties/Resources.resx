@@ -117,76 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DeleteServerEntryCaption" xml:space="preserve">
-    <value>Delete server entry</value>
-  </data>
-  <data name="DeleteServerEntryMessage" xml:space="preserve">
-    <value>Are you sure you wish to delete this server entry?</value>
-  </data>
-  <data name="MainWindowTitle" xml:space="preserve">
-    <value>Conan Exiles Easy Server Switcher</value>
-  </data>
-  <data name="AddServer" xml:space="preserve">
-    <value>_Add Server</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>_Settings</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>_Close</value>
-  </data>
-  <data name="EditServer" xml:space="preserve">
-    <value>Edit Server</value>
-  </data>
-  <data name="ApplicationSettings" xml:space="preserve">
-    <value>Application Settings</value>
-  </data>
-  <data name="ServerName" xml:space="preserve">
-    <value>_Server Name</value>
-  </data>
-  <data name="ServerAddress" xml:space="preserve">
-    <value>Server _Address</value>
-  </data>
-  <data name="ServerPort" xml:space="preserve">
-    <value>Server _Port</value>
-  </data>
-  <data name="ModListFile" xml:space="preserve">
-    <value>_Mod list file</value>
-  </data>
-  <data name="BrowseForFile" xml:space="preserve">
-    <value>Browse for file</value>
-  </data>
-  <data name="Ok" xml:space="preserve">
-    <value>_OK</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>_Cancel</value>
-  </data>
-  <data name="SteamExecutable" xml:space="preserve">
-    <value>Steam _Executable</value>
-  </data>
-  <data name="GameFolder" xml:space="preserve">
-    <value>Conan Exiles _Game Folder</value>
-  </data>
-  <data name="ModFilesFilter" xml:space="preserve">
-	  <value>Text files (*.txt)|*.txt|All files (*.*)|*.*</value>
-  </data>
-  <data name="SelectModlistFile" xml:space="preserve">
-	  <value>Select modlist file</value>
-  </data>
-  <data name="ExecuteFilesFilter" xml:space="preserve">
-	  <value>Executable files (*.exe)|*.exe</value>
-  </data>
-  <data name="SelectSteamExecutable" xml:space="preserve">
-	  <value>Select Steam executable</value>
-  </data>
-  <data name="SelectGameRootFolder" xml:space="preserve">
-	  <value>Select game root folder</value>
-  </data>
-  <data name="StartGame" xml:space="preserve">
-    <value>Start Game</value>
-  </data>
-  <data name="AreYouSureYouWishToStart" xml:space="preserve">
-    <value>Are you sure you wish to start the game with this server?</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ConanServerSwitcherSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ConanServerSwitcherSettings.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

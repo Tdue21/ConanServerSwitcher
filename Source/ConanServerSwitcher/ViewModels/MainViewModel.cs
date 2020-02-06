@@ -35,10 +35,12 @@ namespace ConanServerSwitcher.ViewModels
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IApplicationConfigurationService _configurationService;
+		private readonly IProcessManagementService _processManagementService;
 
-		public MainViewModel(IApplicationConfigurationService configurationService)
+		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService)
 		{
 			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+			_processManagementService = processManagementService ?? throw new ArgumentNullException(nameof(processManagementService));
 			Servers = new ObservableCollection<ServerInformation>();
 		}
 
@@ -60,6 +62,8 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICommand AddServer => new DelegateCommand(ExecuteAddServer);
 
+		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame);
+
 		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer);
 
 		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
@@ -79,6 +83,14 @@ namespace ConanServerSwitcher.ViewModels
 		private void ExecuteSettingsDialog() => ApplicationSettingsWindow?.Show(null);
 
 		private void ExecuteAddServer() => ExecuteEditServer(new ServerInformation());
+
+		private void ExecuteRunGame(ServerInformation arg)
+		{
+			if (AcceptMessageBox(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
+			{
+				_processManagementService.StartProcess(_configurationService.CurrentConfiguration.SteamExecutable, _configurationService.CurrentConfiguration.GameFolder, arg);
+			}
+		}
 
 		private void ExecuteEditServer(ServerInformation arg)
 		{

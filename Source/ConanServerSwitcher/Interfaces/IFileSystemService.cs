@@ -56,5 +56,19 @@ namespace ConanServerSwitcher.Interfaces
 		/// <param name="contents"></param>
 		/// <param name="encoding"></param>
 		void SaveFileContent(string path, string contents, Encoding encoding);
+
+		/// <summary>
+		/// Gets the full path.
+		/// </summary>
+		/// <param name="args">The arguments.</param>
+		/// <returns></returns>
+		string GetFullPath(params string[] args);
+
+		/// <summary>
+		/// Copies the file.
+		/// </summary>
+		/// <param name="sourceFile">The source file.</param>
+		/// <param name="destinationFile">The destination file.</param>
+		void CopyFile(string sourceFile, string destinationFile);
 	}
 }

@@ -76,7 +76,7 @@
 			</Grid.ColumnDefinitions>
 
 			<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Command="{Binding DialogAccept}" IsDefault="True" />
-			<Button Grid.Column="4" Content="{x:Static ln:Localization.Cancel}" Command="{Binding DialogCancel}" IsCancel="True" />
+			<Button Grid.Column="3" Content="{x:Static ln:Localization.Cancel}" Command="{Binding DialogCancel}" IsCancel="True" />
 		</Grid>
 	</Grid>
 </UserControl>

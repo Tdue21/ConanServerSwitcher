@@ -79,6 +79,15 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you wish to start the game with this server?.
+        /// </summary>
+        public static string AreYouSureYouWishToStart {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWishToStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse for file.
         /// </summary>
         public static string BrowseForFile {
@@ -246,6 +255,15 @@ namespace ConanServerSwitcher.Localization {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Game.
+        /// </summary>
+        public static string StartGame {
+            get {
+                return ResourceManager.GetString("StartGame", resourceCulture);
             }
         }
         

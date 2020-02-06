@@ -22,7 +22,6 @@
 // ****************************************************************************
 
 using System;
-using System.Linq;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;

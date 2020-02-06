@@ -21,49 +21,12 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-using System;
-using System.IO;
-using System.Text;
-using ConanServerSwitcher.Interfaces;
+using ConanServerSwitcher.Models;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Interfaces
 {
-	public class FileSystemService : IFileSystemService
-	{
-		/// <inheritdoc />
-		public string GetLocalApplicationDataPath(string fileName)
-		{
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			if (Directory.Exists(path))
-			{
-				var filePath = Path.Combine(path, "ConanServerSwitcher");
-				if (!Directory.Exists(filePath))
-				{
-					Directory.CreateDirectory(filePath);
-				}
-
-				return Path.Combine(filePath, fileName);
-			}
-
-			return fileName;
-		}
-
-		/// <inheritdoc />
-		public bool Exists(string path) => File.Exists(path);
-
-		/// <inheritdoc />
-		public string ReadFileContent(string path, Encoding encoding) => File.ReadAllText(path, encoding);
-
-		/// <inheritdoc />
-		public void SaveFileContent(string path, string contents, Encoding encoding) => File.WriteAllText(path, contents, encoding);
-
-		/// <inheritdoc />
-		public string GetFullPath(params string[] args) => Path.Combine(args);
-
-		/// <inheritdoc />
-		public void CopyFile(string sourceFile, string destinationFile)
-		{
-			
-		}
-	}
+    public interface IProcessManagementService
+    {
+        bool StartProcess(string executable, string gameFolder, ServerInformation args);
+    }
 }

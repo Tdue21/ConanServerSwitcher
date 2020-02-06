@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
-
-namespace ConanServerSwitcher.Views
+﻿namespace ConanServerSwitcher.Views
 {
-    public partial class ServerInformationView : UserControl
+    public partial class ServerInformationView
     {
         public ServerInformationView()
         {

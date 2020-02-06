@@ -1,0 +1,9 @@
+﻿{
+  "SteamExecutable": "C:\\Program Files (x86)\\Steam\\Steam.exe",
+  "ConanInstallPath": "C:\\Program Files (x86)\\Steam\\SteamLibrary\\ConanExiles",
+  "ServerInformation": [
+    { "Name": "Shades & Fangs", "Address": "51.89.70.206", "Port": "7777", "ModList": null },
+    { "Name": "The Green Isle", "Address": "89.127.35.254", "Port": "7777", "ModList": null },
+    { "Name": "Rise of the Overlords", "Address": "12.13.14.15", "Port": "12345", "ModList": null }
+  ]
+}

@@ -66,6 +66,8 @@
     <Compile Include="Models\ServerInformation.cs" />
     <Compile Include="Services\ApplicationConfigurationService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
+    <Compile Include="Interfaces\IProcessManagementService.cs" />
+    <Compile Include="Services\ProcessManagementService.cs" />
     <Compile Include="ViewModels\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerInformationViewModel.cs" />
