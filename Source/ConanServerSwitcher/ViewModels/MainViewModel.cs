@@ -36,31 +36,35 @@ namespace ConanServerSwitcher.ViewModels
 	{
 		private readonly IApplicationConfigurationService _configurationService;
 		private readonly IProcessManagementService _processManagementService;
+		private readonly ISteamLocator _steamLocator;
+		private ApplicationConfiguration _config;
 
-		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService)
+		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService, ISteamLocator steamLocator)
 		{
 			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
 			_processManagementService = processManagementService ?? throw new ArgumentNullException(nameof(processManagementService));
+			_steamLocator = steamLocator ?? throw new ArgumentNullException(nameof(steamLocator));
+
 			Servers = new ObservableCollection<ServerInformation>();
 		}
 
 		public ObservableCollection<ServerInformation> Servers { get; set; }
 
-		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
-
 		public IWindowService EditServerWindow => GetService<IWindowService>("EditServerWindow");
-		
-		public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
 		
 		public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 
+		public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
+		
+		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+		
 		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 		
 		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
 
-		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
+		public ICommand CloseApplication => new DelegateCommand(() => CurrentWindowService?.Close());
 
-		public ICommand AddServer => new DelegateCommand(ExecuteAddServer);
+		public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
 
 		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame);
 
@@ -68,28 +72,48 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
 
+		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+		
 		private void ExecuteInitialize()
 		{
-			_configurationService.LoadConfiguration();
+			var doSave = false;
+			_config = _configurationService.LoadConfiguration();
+			if (string.IsNullOrWhiteSpace(_config.SteamExecutable))
+			{
+				_config.SteamExecutable = _steamLocator.GetSteamPath();
+				doSave = true;
+			}
+
+			if (string.IsNullOrWhiteSpace(_config.GameFolder))
+			{
+				_config.GameFolder = _steamLocator.GetAppPath(440900);
+				doSave = true;
+			}
+
+			if (doSave)
+			{
+				_configurationService.SaveConfiguration(_config);
+			}
+
 			Servers.Clear();
-			foreach (var information in _configurationService.CurrentConfiguration.ServerInformation)
+			foreach (var information in _config.ServerInformation)
 			{
 				Servers.Add(information);
 			}
 		}
 
-		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
-
-		private void ExecuteSettingsDialog() => ApplicationSettingsWindow?.Show(null);
-
-		private void ExecuteAddServer() => ExecuteEditServer(new ServerInformation());
-
 		private void ExecuteRunGame(ServerInformation arg)
 		{
 			if (AcceptMessageBox(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
 			{
-				_processManagementService.StartProcess(_configurationService.CurrentConfiguration.SteamExecutable, _configurationService.CurrentConfiguration.GameFolder, arg);
+				_processManagementService.StartProcess(_config.SteamExecutable, _config.GameFolder, arg);
 			}
+		}
+
+		private void ExecuteSettingsDialog()
+		{
+			ApplicationSettingsWindow?.Show(null);
+			ExecuteInitialize();
 		}
 
 		private void ExecuteEditServer(ServerInformation arg)
@@ -102,15 +126,13 @@ namespace ConanServerSwitcher.ViewModels
 		{
 			if (AcceptMessageBox(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
 			{
-				var result = _configurationService.CurrentConfiguration.ServerInformation.FirstOrDefault(i => i.Equals(arg));
+				var result = _config.ServerInformation.FirstOrDefault(i => i.Equals(arg));
 				if (result != null)
 				{
-					_configurationService.CurrentConfiguration.ServerInformation.Remove(result);
-					_configurationService.SaveConfiguration();
+					_config.ServerInformation.Remove(result);
+					_configurationService.SaveConfiguration(_config);
 				}
 			}
 		}
-
-		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 	}
 }

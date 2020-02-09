@@ -33,6 +33,7 @@ namespace ConanServerSwitcher.ViewModels
 	public class ServerInformationViewModel : ViewModelBase
 	{
 		private readonly IApplicationConfigurationService _configurationService;
+		private ApplicationConfiguration _config;
 
 		public ServerInformationViewModel(IApplicationConfigurationService configurationService)
 		{
@@ -75,28 +76,25 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
 															 
-		private void ExecuteInitialize()
-		{
-		}
+		private void ExecuteInitialize() => _config = _configurationService.LoadConfiguration();
 
 		private void ExecuteDialogAccept()
 		{
-			var original = _configurationService.CurrentConfiguration.ServerInformation.FirstOrDefault(s => s.Name.Equals(ServerName));
+			var original = _config.ServerInformation.FirstOrDefault(s => s.Name.Equals(ServerName));
 			if(original != null)
 			{
-				_configurationService.CurrentConfiguration.ServerInformation.Remove(original);
+				_config.ServerInformation.Remove(original);
 			}
 
-			_configurationService.CurrentConfiguration
-			                     .ServerInformation
-			                     .Add(new ServerInformation
-			                          {
-				                          Name    = ServerName,
-				                          Address = ServerAddress,
-				                          Port    = ServerPort,
-				                          ModList = ModListPath
-			                          });
-			_configurationService.SaveConfiguration();
+			_config.ServerInformation
+			       .Add(new ServerInformation
+			            {
+				            Name    = ServerName,
+				            Address = ServerAddress,
+				            Port    = ServerPort,
+				            ModList = ModListPath
+			            });
+			_configurationService.SaveConfiguration(_config);
 
 			CurrentWindowService?.Close();
 		}
@@ -121,7 +119,6 @@ namespace ConanServerSwitcher.ViewModels
 				ServerAddress = server.Address;
 				ServerPort = server.Port;
 				ModListPath = server.ModList;
-
 			}
 		}
 	}

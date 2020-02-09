@@ -36,8 +36,11 @@ namespace ConanServerSwitcher
 		public DependencyInjector()
 		{
 			_container = new UnityContainer().RegisterType<IFileSystemService, FileSystemService>(new ContainerControlledLifetimeManager())
+			                                 .RegisterType<IRegistryService, RegistryService>(new ContainerControlledLifetimeManager())
+			                                 .RegisterType<ISteamLocator, SteamLocator>(new ContainerControlledLifetimeManager())
+			                                 .RegisterType<IProcessManagementService, ProcessManagementService>(new ContainerControlledLifetimeManager())
 			                                 .RegisterType<IApplicationConfigurationService, ApplicationConfigurationService>(new ContainerControlledLifetimeManager())
-
+											 
 			                                 .RegisterType<MainViewModel>()
 			                                 .RegisterType<ServerInformationViewModel>()
 			                                 .RegisterType<ApplicationSettingsViewModel>()

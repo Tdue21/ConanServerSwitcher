@@ -21,23 +21,36 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-using System;
+// ReSharper disable StringLiteralsWordIsNotInDictionary
 // ReSharper disable NonReadonlyMemberInGetHashCode
+
+using System;
 
 namespace ConanServerSwitcher.Models
 {
+	/// <summary>
+	/// Class representing a single item in the list of servers registered in the application.
+	/// </summary>
 	public class ServerInformation : ICloneable
 	{
+		/// <summary>Gets or sets the name of the server.</summary>
 		public string Name { get; set; }
 		
+		/// <summary>Gets or sets the address of the server.</summary>
 		public string Address { get; set; }
 		
+		/// <summary>Gets or sets the game port for the server.</summary>
 		public string Port { get; set; }
 		
+		/// <summary>Gets or sets the path to the server's modlist.</summary>
 		public string ModList { get; set; }
 
 		object ICloneable.Clone() => MemberwiseClone();
 		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public ServerInformation Clone() => (ServerInformation) MemberwiseClone();
 
 		protected bool Equals(ServerInformation other) => Name == other.Name;
@@ -49,9 +62,6 @@ namespace ConanServerSwitcher.Models
 
 		public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
 
-		public string ToArgs()
-		{
-			return $"{Address}:{Port}"; // TODO 
-		}
+		public string ToArgs() => $"-appLaunch 440900 +connect {Address}:{Port}";
 	}
 }

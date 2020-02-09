@@ -22,6 +22,7 @@
 // ****************************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
@@ -41,10 +42,8 @@ namespace ConanServerSwitcher.Services
 				{
 					Directory.CreateDirectory(filePath);
 				}
-
 				return Path.Combine(filePath, fileName);
 			}
-
 			return fileName;
 		}
 
@@ -61,9 +60,12 @@ namespace ConanServerSwitcher.Services
 		public string GetFullPath(params string[] args) => Path.Combine(args);
 
 		/// <inheritdoc />
-		public void CopyFile(string sourceFile, string destinationFile)
-		{
-			
-		}
+		public void CopyFile(string sourceFile, string destinationFile) => File.Copy(sourceFile, destinationFile, true);
+
+		/// <inheritdoc />
+		public IEnumerable<string> GetFiles(string path, string mask) => Directory.GetFiles(path, mask, SearchOption.TopDirectoryOnly);
+
+		/// <inheritdoc />
+		public string GetDirectoryName(string path) => Path.GetDirectoryName(path);
 	}
 }

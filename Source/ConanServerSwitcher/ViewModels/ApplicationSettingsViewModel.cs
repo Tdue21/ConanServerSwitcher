@@ -24,6 +24,7 @@
 using System;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
+using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
 
 namespace ConanServerSwitcher.ViewModels
@@ -31,6 +32,7 @@ namespace ConanServerSwitcher.ViewModels
 	public class ApplicationSettingsViewModel : ViewModelBase
 	{
 		private readonly IApplicationConfigurationService _configurationService;
+		private ApplicationConfiguration _config;
 
 		public ApplicationSettingsViewModel(IApplicationConfigurationService configurationService)
 		{
@@ -67,9 +69,9 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteInitialize()
 		{
-			_configurationService.LoadConfiguration();
-			SteamExe = _configurationService.CurrentConfiguration.SteamExecutable;
-			GameFolder = _configurationService.CurrentConfiguration.GameFolder;
+			_config = _configurationService.LoadConfiguration();
+			SteamExe = _config.SteamExecutable;
+			GameFolder = _config.GameFolder;
 		}
 
 		private void ExecuteBrowseForFile()
@@ -90,9 +92,9 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteDialogAccept()
 		{
-			_configurationService.CurrentConfiguration.SteamExecutable = SteamExe;
-			_configurationService.CurrentConfiguration.GameFolder = GameFolder;
-			_configurationService.SaveConfiguration();
+			_config.SteamExecutable = SteamExe;
+			_config.GameFolder = GameFolder;
+			_configurationService.SaveConfiguration(_config);
 
 			CurrentWindowService?.Close();
 		}

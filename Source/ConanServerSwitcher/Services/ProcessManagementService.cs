@@ -58,6 +58,7 @@ namespace ConanServerSwitcher.Services
                            FileName = executable, 
                            Arguments = args.ToArgs(),
                            CreateNoWindow = true,
+                           UseShellExecute = false
                        };
             using (var proc = new Process())
             {

@@ -21,44 +21,10 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-using System;
-using System.Text;
-using ConanServerSwitcher.Interfaces;
-using ConanServerSwitcher.Models;
-using Newtonsoft.Json;
-
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Interfaces
 {
-	public class ApplicationConfigurationService : IApplicationConfigurationService
+	public interface IRegistryService
 	{
-		private const string ConfigFile = "ConanServerSwitcherSettings.json";
-
-		private readonly string _configurationFile;
-		private readonly IFileSystemService _fileSystemService;
-
-		public ApplicationConfigurationService(IFileSystemService fileSystemService)
-		{
-			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
-			_configurationFile = _fileSystemService.GetLocalApplicationDataPath(ConfigFile);
-		}
-
-		public ApplicationConfiguration LoadConfiguration()
-		{
-			if (!_fileSystemService.Exists(_configurationFile))
-			{
-				return new ApplicationConfiguration();
-			}
-
-			var data   = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
-			var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
-
-			return result.Clone();
-		}
-
-		public void SaveConfiguration(ApplicationConfiguration data)
-		{
-			var result = JsonConvert.SerializeObject(data);
-			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
-		}
+		object GetValue(string path, string key, object defaultValue = null);
 	}
 }

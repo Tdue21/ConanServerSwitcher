@@ -22,43 +22,30 @@
 // ****************************************************************************
 
 using System;
-using System.Text;
-using ConanServerSwitcher.Interfaces;
-using ConanServerSwitcher.Models;
-using Newtonsoft.Json;
+using System.IO;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher
 {
-	public class ApplicationConfigurationService : IApplicationConfigurationService
+	public static class ExtensionsMethods
 	{
-		private const string ConfigFile = "ConanServerSwitcherSettings.json";
-
-		private readonly string _configurationFile;
-		private readonly IFileSystemService _fileSystemService;
-
-		public ApplicationConfigurationService(IFileSystemService fileSystemService)
+		public static bool IsValidPath(this string path)
 		{
-			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
-			_configurationFile = _fileSystemService.GetLocalApplicationDataPath(ConfigFile);
-		}
-
-		public ApplicationConfiguration LoadConfiguration()
-		{
-			if (!_fileSystemService.Exists(_configurationFile))
+			FileInfo fi = null;
+			try
 			{
-				return new ApplicationConfiguration();
+				var uri = new Uri(path, UriKind.Absolute);
+				if (uri.IsFile && uri.Scheme == "file")
+				{
+					fi = new FileInfo(path);
+				}
+
 			}
+			catch (ArgumentException) { }
+			catch (UriFormatException) { }
+			catch (PathTooLongException) { }
+			catch (NotSupportedException) { }
 
-			var data   = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
-			var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
-
-			return result.Clone();
-		}
-
-		public void SaveConfiguration(ApplicationConfiguration data)
-		{
-			var result = JsonConvert.SerializeObject(data);
-			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
+			return !ReferenceEquals(fi, null);
 		}
 	}
 }

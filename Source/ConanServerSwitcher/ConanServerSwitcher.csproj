@@ -57,6 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="Interfaces\IApplicationConfigurationService.cs" />
     <Compile Include="Interfaces\IFileSystemService.cs" />
+    <Compile Include="Interfaces\IRegistryService.cs" />
+    <Compile Include="Interfaces\ISteamLocator.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -65,9 +67,12 @@
     <Compile Include="Models\ApplicationConfiguration.cs" />
     <Compile Include="Models\ServerInformation.cs" />
     <Compile Include="Services\ApplicationConfigurationService.cs" />
+    <Compile Include="ExtensionsMethods.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Interfaces\IProcessManagementService.cs" />
     <Compile Include="Services\ProcessManagementService.cs" />
+    <Compile Include="Services\RegistryService.cs" />
+    <Compile Include="Services\SteamLocator.cs" />
     <Compile Include="ViewModels\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ServerInformationViewModel.cs" />
@@ -113,9 +118,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Localization\Localization.da.resx" />
     <EmbeddedResource Include="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -132,6 +139,9 @@
   <ItemGroup>
     <PackageReference Include="DevExpressMvvm">
       <Version>19.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Gameloop.Vdf">
+      <Version>0.5.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
