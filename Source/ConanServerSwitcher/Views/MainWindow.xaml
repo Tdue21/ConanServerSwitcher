@@ -8,7 +8,6 @@
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
         mc:Ignorable="d" Height="500" Width="450"
         Title="{x:Static ln:Localization.MainWindowTitle}" 
-		d:DataContext="{d:DesignData Source=/SampleData/MainViewModelSampleData.xaml}"
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
         >
 	<Window.Resources>
@@ -29,7 +28,8 @@
 			</Border>
 			<ControlTemplate.Triggers>
 				<Trigger Property="IsDefaulted" Value="True">
-					<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+					<Setter Property="BorderBrush" TargetName="border" 
+					        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
 				</Trigger>
 				<Trigger Property="IsMouseOver" Value="True">
 					<Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>

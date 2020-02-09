@@ -82,10 +82,6 @@
     <Compile Include="Views\ServerInformationView.xaml.cs">
       <DependentUpon>ServerInformationView.xaml</DependentUpon>
     </Compile>
-    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
     <Page Include="Views\ApplicationSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,7 +114,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Localization\Localization.da.resx" />
+    <EmbeddedResource Include="Localization\Localization.da.resx">
+      <DependentUpon>Localization.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>

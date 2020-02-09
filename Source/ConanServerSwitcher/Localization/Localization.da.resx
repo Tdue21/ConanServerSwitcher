@@ -98,4 +98,76 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="AddServer" xml:space="preserve">
+		<value>_Tilføj server</value>
+	</data>
+	<data name="ApplicationSettings" xml:space="preserve">
+		<value>Program indstillinger</value>
+	</data>
+	<data name="AreYouSureYouWishToStart" xml:space="preserve">
+		<value>Er du sikker på at du vil starte spillet med denne server?</value>
+	</data>
+	<data name="BrowseForFile" xml:space="preserve">
+		<value>Søg efter fil</value>
+	</data>
+	<data name="Cancel" xml:space="preserve">
+		<value>_Afbryd</value>
+	</data>
+	<data name="Close" xml:space="preserve">
+		<value>_Luk</value>
+	</data>
+	<data name="DeleteServerEntryCaption" xml:space="preserve">
+		<value>Slet server</value>
+	</data>
+	<data name="DeleteServerEntryMessage" xml:space="preserve">
+		<value>Er du sikker på at du vil slette denne server?</value>
+	</data>
+	<data name="EditServer" xml:space="preserve">
+		<value>Rediger server</value>
+	</data>
+	<data name="ExecuteFilesFilter" xml:space="preserve">
+		<value>Eksekverbare filer (*.exe)|*.exe</value>
+	</data>
+	<data name="GameFolder" xml:space="preserve">
+		<value>Conan Exiles _spil mappe</value>
+	</data>
+	<data name="MainWindowTitle" xml:space="preserve">
+		<value>Conan Exiles - Let server skifter</value>
+	</data>
+	<data name="ModFilesFilter" xml:space="preserve">
+		<value>Tekst filer (*.txt)|*.txt|Alle filer (*.*)|*.*</value>
+	</data>
+	<data name="ModListFile" xml:space="preserve">
+		<value>_Modliste fil</value>
+	</data>
+	<data name="Ok" xml:space="preserve">
+		<value>_Ok</value>
+	</data>
+	<data name="SelectGameRootFolder" xml:space="preserve">
+		<value>Vælg spilmappe</value>
+	</data>
+	<data name="SelectModlistFile" xml:space="preserve">
+		<value>Vælg modliste fil</value>
+	</data>
+	<data name="SelectSteamExecutable" xml:space="preserve">
+		<value>Vælg Steam eksekverbar</value>
+	</data>
+	<data name="ServerAddress" xml:space="preserve">
+		<value>Server _adresse</value>
+	</data>
+	<data name="ServerName" xml:space="preserve">
+		<value>_Servernavn</value>
+	</data>
+	<data name="ServerPort" xml:space="preserve">
+		<value>Server_port</value>
+	</data>
+	<data name="Settings" xml:space="preserve">
+		<value>Ind_stillinger</value>
+	</data>
+	<data name="StartGame" xml:space="preserve">
+		<value>Start spil</value>
+	</data>
+	<data name="SteamExecutable" xml:space="preserve">
+		<value>Steam _eksekverbar</value>
+	</data>
 </root>
