@@ -88,9 +88,9 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConanServerSwitcher\ConanServerSwitcher.csproj">
-      <Project>{8FBEAA5C-14CE-408E-9C67-642B639ACF25}</Project>
-      <Name>ConanServerSwitcher</Name>
+    <ProjectReference Include="..\ConanServerSwitcher\ConanServerSwitcherCore.csproj">
+      <Project>{32f4cbe0-8775-4371-996c-13323be548b8}</Project>
+      <Name>ConanServerSwitcherCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

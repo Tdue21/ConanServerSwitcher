@@ -6,6 +6,7 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d" Height="500" Width="450"
         Title="{x:Static ln:Localization.MainWindowTitle}" 
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
@@ -90,6 +91,7 @@
 					<views:ApplicationSettingsView />
 				</DataTemplate>
 			</dxmvvm:WindowService.ViewTemplate>
+
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
 					<Setter Property="Width" Value="350" />
@@ -109,6 +111,41 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+
+		<tb:TaskbarIcon x:Name="TaskbarIcon"
+		                Visibility="Visible"
+		                ToolTipText="Conan Exiles Server switcher"
+						IconSource="/Assets/ConanSwitcher.ico"
+						MenuActivation="LeftOrRightClick"
+						PopupActivation="DoubleClick">
+			<tb:TaskbarIcon.ContextMenu>
+				<ContextMenu>
+					<ContextMenu.ItemsSource>
+						<CompositeCollection>
+							<CollectionContainer Collection="{Binding Servers}" />
+							<Separator />
+							<MenuItem Header="Exit" />
+						</CompositeCollection>
+					</ContextMenu.ItemsSource>
+					<ContextMenu.ItemTemplate>
+						<DataTemplate>
+							<MenuItem Header="{Binding Name}"></MenuItem>
+						</DataTemplate>
+					</ContextMenu.ItemTemplate>
+				</ContextMenu>
+			</tb:TaskbarIcon.ContextMenu>
+		</tb:TaskbarIcon>
+		<!--<tb:TaskbarIcon x:Name="myNotifyIcon"
+		                Visibility="Visible"
+		                ToolTipText="Fallback ToolTip for Windows xp"
+		                IconSource="/Images/TrayIcons/Logo.ico"
+		                ContextMenu="{StaticResource TrayMenu}"
+		                MenuActivation="LeftOrRightClick"
+		                TrayPopup="\{StaticResoure TrayStatusPopup\}"
+		                PopupActivation="DoubleClick"
+		                TrayToolTip="{StaticResource TrayToolTip}"
+		/>-->
+
 
 		<ListView Grid.Row="0" x:Name="ServerList"
 		          ItemsSource="{Binding Servers}" BorderThickness="0" 

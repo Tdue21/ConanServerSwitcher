@@ -24,8 +24,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
+using DevExpress.Mvvm.Native;
+using Gameloop.Vdf.Linq;
 
 // ReSharper disable StringLiteralsWordIsNotInDictionary
 
@@ -72,12 +75,15 @@ namespace ConanServerSwitcher.Services
 			var content        = _fileSystemService.ReadFileContent(libraryFolders, Encoding.UTF8);
 			var data           = Gameloop.Vdf.VdfConvert.Deserialize(content);
 
-			foreach (var folder in data.Value.Children()
-			                           .Select(item => item.Value.ToString())
-			                           .Where(item => item.IsValidPath())
-			                           .Select(item => _fileSystemService.GetFullPath(item, "steamapps")))
+
+			foreach (var item in data.Value
+				.Children()
+				.Cast<VProperty>()
+				.Select(token => token.Value.ToString())
+				.Where(item => item.IsValidPath())
+				.Select(path => _fileSystemService.GetFullPath(path, @"steamapps")))
 			{
-				yield return folder;
+				yield return item;
 			}
 		}
 	}
