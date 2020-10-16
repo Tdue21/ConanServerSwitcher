@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConanServerSwitcher", "ConanServerSwitcher\ConanServerSwitcher.csproj", "{8FBEAA5C-14CE-408E-9C67-642B639ACF25}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConanServerSwitcher.UnitTests", "ConanServerSwitcher.UnitTests\ConanServerSwitcher.UnitTests.csproj", "{D1323CF2-7F14-4A49-87E3-4049C5BBE974}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConanServerSwitcherCore", "ConanServerSwitcher\ConanServerSwitcherCore.csproj", "{32F4CBE0-8775-4371-996C-13323BE548B8}"
 EndProject
 Global
@@ -23,46 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|ARM.Build.0 = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|x64.Build.0 = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Debug|x86.Build.0 = Debug|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|ARM.ActiveCfg = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|ARM.Build.0 = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|ARM64.Build.0 = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|x64.ActiveCfg = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|x64.Build.0 = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|x86.ActiveCfg = Release|Any CPU
-		{8FBEAA5C-14CE-408E-9C67-642B639ACF25}.Release|x86.Build.0 = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|ARM.Build.0 = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|x64.Build.0 = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Debug|x86.Build.0 = Debug|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|ARM.ActiveCfg = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|ARM.Build.0 = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|ARM64.Build.0 = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|x64.ActiveCfg = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|x64.Build.0 = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|x86.ActiveCfg = Release|Any CPU
-		{D1323CF2-7F14-4A49-87E3-4049C5BBE974}.Release|x86.Build.0 = Release|Any CPU
 		{32F4CBE0-8775-4371-996C-13323BE548B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32F4CBE0-8775-4371-996C-13323BE548B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F4CBE0-8775-4371-996C-13323BE548B8}.Debug|ARM.ActiveCfg = Debug|Any CPU
