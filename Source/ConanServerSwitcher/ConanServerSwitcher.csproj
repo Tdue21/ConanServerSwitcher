@@ -4,8 +4,6 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<AssemblyName>ConanServerSwitcher</AssemblyName>
-		<RootNameSpace>ConanServerSwitcher</RootNameSpace>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationIcon>Assets\ConanSwitcher.ico</ApplicationIcon>
 	</PropertyGroup>

@@ -24,10 +24,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
-using DevExpress.Mvvm.Native;
 using Gameloop.Vdf.Linq;
 
 // ReSharper disable StringLiteralsWordIsNotInDictionary
@@ -46,7 +44,7 @@ namespace ConanServerSwitcher.Services
 			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
 		}
 
-		public string SteamInstallPath => _installPath ?? (_installPath = (string) _registryService.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam", "InstallPath"));
+		private string SteamInstallPath => _installPath ??= (string) _registryService.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam", "InstallPath");
 
 		/// <inheritdoc />
 		public string GetSteamPath() => _fileSystemService.GetFullPath(SteamInstallPath, "Steam.exe");

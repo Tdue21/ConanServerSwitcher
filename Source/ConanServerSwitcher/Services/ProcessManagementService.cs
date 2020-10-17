@@ -28,43 +28,45 @@ using ConanServerSwitcher.Models;
 
 namespace ConanServerSwitcher.Services
 {
-    public class ProcessManagementService : IProcessManagementService
-    {
-        private readonly IFileSystemService _fileSystemService;
+	public class ProcessManagementService : IProcessManagementService
+	{
+		private readonly IFileSystemService _fileSystemService;
 
-        public ProcessManagementService(IFileSystemService fileSystemService)
-        {
-            _fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
-        }
+		public ProcessManagementService(IFileSystemService fileSystemService)
+		{
+			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
+		}
 
-        public bool StartProcess(string executable, string gameFolder, ServerInformation args)
-        {
-            if (string.IsNullOrWhiteSpace(executable))
-            {
-                throw new ArgumentNullException(nameof(executable));
-            }
+		public bool StartProcess(string executable, string gameFolder, ServerInformation args)
+		{
+			if (string.IsNullOrWhiteSpace(executable))
+			{
+				throw new ArgumentNullException(nameof(executable));
+			}
 
-            if (args == null)
-            {
-                throw new ArgumentNullException(nameof(args));
-            }
+			if (args == null)
+			{
+				throw new ArgumentNullException(nameof(args));
+			}
 
-            var destination = _fileSystemService.GetFullPath(gameFolder, "mods", "modlist.txt");
-            _fileSystemService.CopyFile(args.ModList, destination);
+			var destination = _fileSystemService.GetFullPath(gameFolder, "mods", "modlist.txt");
+			_fileSystemService.CopyFile(args.ModList, destination);
 
 
-            var info = new ProcessStartInfo
-                       {
-                           FileName = executable, 
-                           Arguments = args.ToArgs(),
-                           CreateNoWindow = true,
-                           UseShellExecute = false
-                       };
-            using (var proc = new Process())
-            {
-                proc.StartInfo = info;
-                return proc.Start();
-            }
-        }
-    }
+			var info = new ProcessStartInfo
+					   {
+						   FileName = executable, 
+						   Arguments = args.ToArgs(),
+						   CreateNoWindow = true,
+						   UseShellExecute = false
+					   };
+
+			using var proc = new Process
+			{
+				StartInfo = info
+			};
+
+			return proc.Start();
+		}
+	}
 }
