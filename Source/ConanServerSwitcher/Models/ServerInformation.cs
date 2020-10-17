@@ -53,7 +53,7 @@ namespace ConanServerSwitcher.Models
 		/// <returns></returns>
 		public ServerInformation Clone() => (ServerInformation) MemberwiseClone();
 
-		protected bool Equals(ServerInformation other) => Name == other.Name;
+		private bool Equals(ServerInformation other) => Name == other.Name;
 
 		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && 
 		                                           (ReferenceEquals(this, obj) || 
