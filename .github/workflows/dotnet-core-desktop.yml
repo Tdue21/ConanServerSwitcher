@@ -84,6 +84,6 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Test
-      run: dotnet test
+      run: dotnet test $env.Solution_Name
       env:
         Configuration: ${{ matrix.configuration }}
