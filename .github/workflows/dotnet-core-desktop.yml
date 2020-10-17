@@ -84,6 +84,6 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Test
-      run: dotnet test $env.Solution_Name
+      run: dotnet test Source/ConanServerSwitcher.UnitTests/ConanServerSwitcher.UnitTests.csproj 
       env:
         Configuration: ${{ matrix.configuration }}
