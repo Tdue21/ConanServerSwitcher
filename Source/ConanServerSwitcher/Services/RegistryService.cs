@@ -21,6 +21,7 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System;
 using ConanServerSwitcher.Interfaces;
 using Microsoft.Win32;
 
@@ -29,6 +30,9 @@ namespace ConanServerSwitcher.Services
 	public class RegistryService : IRegistryService
 	{
 		/// <inheritdoc />
-		public object GetValue(string path, string key, object defaultValue = null) => Registry.GetValue(path, key, defaultValue);
+		public object GetValue(string path, string key, object defaultValue = null)
+		{
+			return OperatingSystem.IsWindows() ? Registry.GetValue(path, key, defaultValue) : null;
+		}
 	}
 }
