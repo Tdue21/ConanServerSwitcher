@@ -22,6 +22,7 @@
 // ****************************************************************************
 
 using System;
+using System.Linq;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
@@ -33,8 +34,8 @@ namespace ConanServerSwitcher.Services
 	{
 		private const string ConfigFile = "ConanServerSwitcherSettings.json";
 
-		private readonly string _configurationFile;
 		private readonly IFileSystemService _fileSystemService;
+		private readonly string _configurationFile;
 
 		public ApplicationConfigurationService(IFileSystemService fileSystemService)
 		{
@@ -52,12 +53,17 @@ namespace ConanServerSwitcher.Services
 			var data   = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
 			var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
 
+			foreach (var server in result.ServerInformation.Where(server => server.Id.Equals(Guid.Empty)))
+			{
+				server.Id = Guid.NewGuid();
+			}
+
 			return result.Clone();
 		}
 
 		public void SaveConfiguration(ApplicationConfiguration data)
 		{
-			var result = JsonConvert.SerializeObject(data);
+			var result = JsonConvert.SerializeObject(data, Formatting.Indented);
 			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
 		}
 	}

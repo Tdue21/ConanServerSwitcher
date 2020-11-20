@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Loaded="OnWindowLoaded"
 		DataContext="{Binding ServerInformationViewModel, Source={StaticResource DependencyInjector}}"
-        d:DesignHeight="220" d:DesignWidth="350" 
         Background="White">
 
 	<dxmvvm:Interaction.Behaviors>
@@ -18,65 +17,73 @@
 		                              Title="{x:Static ln:Localization.SelectModlistFile}" />
 	</dxmvvm:Interaction.Behaviors>
 
-	<Grid Margin="10">
-		<Grid.RowDefinitions>	 
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+	<UserControl.Resources>
+		<Style TargetType="Label">
+			<Setter Property="Padding" Value="0,5,0,0"></Setter>
+		</Style>
+
+		<Style TargetType="CheckBox">
+			<Setter Property="Margin" Value="0,5,0,0"></Setter>
+		</Style>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Vertical" Margin="5,0,5,5" >
 
-		<Label Grid.Row="0" Grid.Column="0" Padding="0,5,0,0"
-		       Content="{x:Static ln:Localization.ServerName}" />
+			<Label Content="{x:Static ln:Localization.ServerName}" />
 
-		<TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-		         Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBox Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-		<Label Grid.Row="2" Grid.Column="0" Padding="0,5,0,0" 
-		       Content="{x:Static ln:Localization.ServerAddress}" />
+			<Label Content="{x:Static ln:Localization.ServerAddress}" />
 
-		<TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-		         Text="{Binding ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+			<TextBox Text="{Binding ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-		<Label Grid.Row="4" Grid.Column="0" Padding="0,5,0,0"
-		       Content="{x:Static ln:Localization.ServerPort}" />
+			<Label Content="{x:Static ln:Localization.ServerPort}" />
 
-		<TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-		         Text="{Binding ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<TextBox Text="{Binding ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-		<Label Grid.Row="6" Grid.Column="0" Padding="0,5,0,0"
-		       Content="{x:Static ln:Localization.ModListFile}" />
+			<Label Content="{x:Static ln:Localization.Password}" />
 
-		<TextBox Grid.Row="7" Grid.Column="0" 
-		         Text="{Binding ModListPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+			<PasswordBox x:Name="ServerPasswordBox" PasswordChanged="OnPasswordChanged" />
 
-		<Button Grid.Row="7" Grid.Column="1" 
-		        Command="{Binding BrowseForFile}" Background="{x:Null}" BorderThickness="0">
-			<Button.Content>
-				<Image Source="../Assets/folder-open.png" Width="16" Height="16" />
-			</Button.Content>
-		</Button>
+			<CheckBox Content="Use BattlEye" IsChecked="{Binding UseBattleEye, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-		<Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="100" />
-				<ColumnDefinition Width="6" />
-				<ColumnDefinition Width="100" />
-			</Grid.ColumnDefinitions>
+			<Label Content="{x:Static ln:Localization.ModListFile}" />
 
-			<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Command="{Binding DialogAccept}" IsDefault="True" />
-			<Button Grid.Column="3" Content="{x:Static ln:Localization.Cancel}" Command="{Binding DialogCancel}" IsCancel="True" />
-		</Grid>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<TextBox Grid.Column="0" Text="{Binding ModListPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+				<Button Grid.Column="1" Command="{Binding BrowseForFile}" Background="{x:Null}" BorderThickness="0">
+					<Button.Content>
+						<Image Source="../Assets/folder-open.png" Width="16" Height="16" />
+					</Button.Content>
+				</Button>
+			</Grid>
+		</StackPanel>
+
+		<StackPanel Grid.Row="1" Background="#FFE0E0E0">
+
+			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="80" />
+					<ColumnDefinition Width="6" />
+					<ColumnDefinition Width="80" />
+				</Grid.ColumnDefinitions>
+
+				<Button Grid.Column="1" Content="{x:Static ln:Localization.Ok}" Command="{Binding DialogAccept}" IsDefault="True" />
+				<Button Grid.Column="3" Content="{x:Static ln:Localization.Cancel}" Command="{Binding DialogCancel}" IsCancel="True" />
+			</Grid>
+		</StackPanel>
 	</Grid>
 </UserControl>

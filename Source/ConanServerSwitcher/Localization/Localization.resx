@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DeleteServerEntryCaption" xml:space="preserve">
     <value>Delete server entry</value>
@@ -169,24 +169,33 @@
     <value>Conan Exiles _Game Folder</value>
   </data>
   <data name="ModFilesFilter" xml:space="preserve">
-	  <value>Text files (*.txt)|*.txt|All files (*.*)|*.*</value>
+    <value>Text files (*.txt)|*.txt|All files (*.*)|*.*</value>
   </data>
   <data name="SelectModlistFile" xml:space="preserve">
-	  <value>Select modlist file</value>
+    <value>Select modlist file</value>
   </data>
   <data name="ExecuteFilesFilter" xml:space="preserve">
-	  <value>Executable files (*.exe)|*.exe</value>
+    <value>Executable files (*.exe)|*.exe</value>
   </data>
   <data name="SelectSteamExecutable" xml:space="preserve">
-	  <value>Select Steam executable</value>
+    <value>Select Steam executable</value>
   </data>
   <data name="SelectGameRootFolder" xml:space="preserve">
-	  <value>Select game root folder</value>
+    <value>Select game root folder</value>
   </data>
   <data name="StartGame" xml:space="preserve">
     <value>Start Game</value>
   </data>
   <data name="AreYouSureYouWishToStart" xml:space="preserve">
     <value>Are you sure you wish to start the game with this server?</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="UseBattlEye" xml:space="preserve">
+	  <value>Use BattlEye</value>
+  </data>
+  <data name="Window.Title" xml:space="preserve">
+	  <value>Title</value>
   </data>
 </root>

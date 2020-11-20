@@ -52,18 +52,15 @@ namespace ConanServerSwitcher.Services
 			var destination = _fileSystemService.GetFullPath(gameFolder, "mods", "modlist.txt");
 			_fileSystemService.CopyFile(args.ModList, destination);
 
-
-			var info = new ProcessStartInfo
-					   {
-						   FileName = executable, 
-						   Arguments = args.ToArgs(),
-						   CreateNoWindow = true,
-						   UseShellExecute = false
-					   };
-
 			using var proc = new Process
 			{
-				StartInfo = info
+				StartInfo = new ProcessStartInfo
+				{
+						FileName = executable,
+						Arguments = args.ToArgs(),
+						CreateNoWindow = true,
+						UseShellExecute = false
+				}
 			};
 
 			return proc.Start();

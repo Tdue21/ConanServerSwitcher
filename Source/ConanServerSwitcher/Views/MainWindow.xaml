@@ -9,6 +9,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d" Height="500" Width="450"
         Title="{x:Static ln:Localization.MainWindowTitle}" 
+		WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
         >
 	<Window.Resources>
@@ -69,13 +70,14 @@
 					<views:ServerInformationView />
 				</DataTemplate>
 			</dxmvvm:WindowService.ViewTemplate>
+
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
-					<Setter Property="Width" Value="350" />
-					<Setter Property="Height" Value="250" />
+					<Setter Property="Width" Value="450" />
+					<Setter Property="Height" Value="300" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
-					<Setter Property="ShowInTaskbar" Value="False"></Setter>
+					<Setter Property="ShowInTaskbar" Value="False" />
 				</Style>
 			</dxmvvm:WindowService.WindowStyle>
 		</dxmvvm:WindowService>
@@ -127,6 +129,7 @@
 							<MenuItem Header="Exit" />
 						</CompositeCollection>
 					</ContextMenu.ItemsSource>
+
 					<ContextMenu.ItemTemplate>
 						<DataTemplate>
 							<MenuItem Header="{Binding Name}"></MenuItem>
@@ -135,6 +138,7 @@
 				</ContextMenu>
 			</tb:TaskbarIcon.ContextMenu>
 		</tb:TaskbarIcon>
+
 		<!--<tb:TaskbarIcon x:Name="myNotifyIcon"
 		                Visibility="Visible"
 		                ToolTipText="Fallback ToolTip for Windows xp"
@@ -168,6 +172,7 @@
 							</Button>
 							<Button Width="32" Height="32" 
 							        Command="{Binding ElementName=ServerList, Path=DataContext.RemoveServer}" 
+							        CommandParameter="{Binding}"
 							        Template="{DynamicResource ActionButtons}">
 								<Image Source="../Assets/trash-can-outline.png" Width="24" Height="24" />
 							</Button>

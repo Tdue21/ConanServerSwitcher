@@ -196,6 +196,15 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select game root folder.
         /// </summary>
         public static string SelectGameRootFolder {
@@ -273,6 +282,24 @@ namespace ConanServerSwitcher.Localization {
         public static string SteamExecutable {
             get {
                 return ResourceManager.GetString("SteamExecutable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use BattlEye.
+        /// </summary>
+        public static string UseBattlEye {
+            get {
+                return ResourceManager.GetString("UseBattlEye", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Window_Title {
+            get {
+                return ResourceManager.GetString("Window.Title", resourceCulture);
             }
         }
     }

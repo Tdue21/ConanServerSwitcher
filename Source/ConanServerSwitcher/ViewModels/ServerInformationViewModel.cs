@@ -44,6 +44,8 @@ namespace ConanServerSwitcher.ViewModels
 
 		public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
 
+		public Guid ServerId { get; set; }
+
 		public string ServerName 
 		{ 
 			get => GetProperty(() => ServerName); 
@@ -62,10 +64,22 @@ namespace ConanServerSwitcher.ViewModels
 			set => SetProperty(() => ServerPort, value);
 		}
 
+		public string Password
+		{
+			get => GetProperty(() => Password);
+			set => SetProperty(() => Password, value);
+		}
+
 		public string ModListPath
 		{
 			get => GetProperty(() => ModListPath);
 			set => SetProperty(() => ModListPath, value);
+		}
+
+		public bool UseBattleEye
+		{
+			get => GetProperty(() => UseBattleEye);
+			set => SetProperty(() => UseBattleEye, value);
 		}
 
 		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
@@ -80,20 +94,20 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteDialogAccept()
 		{
-			var original = _config.ServerInformation.FirstOrDefault(s => s.Name.Equals(ServerName));
-			if(original != null)
+			var original = _config.ServerInformation.FirstOrDefault(s => s.Id.Equals(ServerId));
+			if(original == null)
 			{
-				_config.ServerInformation.Remove(original);
+				original = new ServerInformation();
+				_config.ServerInformation.Add(original);
 			}
 
-			_config.ServerInformation
-			       .Add(new ServerInformation
-			            {
-				            Name    = ServerName,
-				            Address = ServerAddress,
-				            Port    = ServerPort,
-				            ModList = ModListPath
-			            });
+			original.Name = ServerName;
+			original.Address = ServerAddress;
+			original.Port = ServerPort;
+			original.Password = Password;
+			original.BattlEye = UseBattleEye;
+			original.ModList = ModListPath;
+
 			_configurationService.SaveConfiguration(_config);
 
 			CurrentWindowService?.Close();
@@ -115,10 +129,13 @@ namespace ConanServerSwitcher.ViewModels
 
 			if (parameter is ServerInformation server)
 			{
+				ServerId = server.Id;
 				ServerName = server.Name;
 				ServerAddress = server.Address;
 				ServerPort = server.Port;
 				ModListPath = server.ModList;
+				Password = server.Password;
+				UseBattleEye = server.BattlEye;
 			}
 		}
 	}

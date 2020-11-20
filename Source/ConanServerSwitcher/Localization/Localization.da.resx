@@ -170,4 +170,10 @@
 	<data name="SteamExecutable" xml:space="preserve">
 		<value>Steam _eksekverbar</value>
 	</data>
+	<data name="Password" xml:space="preserve">
+		<value>Password</value>
+	</data>
+	<data name="UseBattlEye" xml:space="preserve">
+		<value>Anvend BattlEye</value>
+	</data>
 </root>

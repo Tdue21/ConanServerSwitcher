@@ -21,6 +21,7 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System;
 using System.IO;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
@@ -58,9 +59,9 @@ namespace ConanServerSwitcher.UnitTests
 				GameFolder = "C:\\Program Files (x86)\\Steam\\SteamLibrary\\ConanExiles",
 				ServerInformation =
 				{
-					new ServerInformation { Name = "Shades & Fangs",        Address = "51.89.70.206",  Port = "7777", ModList = null },
-					new ServerInformation { Name = "The Green Isle",        Address = "89.127.35.254", Port = "7777", ModList = null },
-					new ServerInformation { Name = "Rise of the Overlords", Address = "12.13.14.15",   Port = "12345", ModList = null },
+					new ServerInformation { Id = Guid.Parse("58C07C6F-1157-48A9-B6AC-4FDA52A95A00"), Name = "Shades & Fangs",        Address = "51.89.70.206",  Port = "7777", ModList = null },
+					new ServerInformation { Id = Guid.Parse("B4A80842-BC30-4D80-B7DA-E473DA81C13D"), Name = "The Green Isle",        Address = "89.127.35.254", Port = "7777", ModList = null },
+					new ServerInformation { Id = Guid.Parse("8FC8AFD1-CA33-49D1-BC70-7E282DA7B661"), Name = "Rise of the Overlords", Address = "12.13.14.15",   Port = "12345", ModList = null },
 				}
 			};
 

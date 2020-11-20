@@ -25,6 +25,9 @@
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 using System;
+using System.Text;
+using ConanServerSwitcher.Services;
+using Newtonsoft.Json;
 
 namespace ConanServerSwitcher.Models
 {
@@ -33,6 +36,16 @@ namespace ConanServerSwitcher.Models
 	/// </summary>
 	public class ServerInformation : ICloneable
 	{
+		public ServerInformation()
+		{
+			Id = Guid.NewGuid();
+			Password = string.Empty;
+			BattlEye = true;
+		}
+
+		/// <summary>Gets or set the unique identifier of the object.</summary>
+		public Guid Id { get; set; }
+
 		/// <summary>Gets or sets the name of the server.</summary>
 		public string Name { get; set; }
 		
@@ -44,16 +57,20 @@ namespace ConanServerSwitcher.Models
 		
 		/// <summary>Gets or sets the path to the server's modlist.</summary>
 		public string ModList { get; set; }
+		
+		/// <summary>Gets or sets the server password. </summary>
+		[JsonConverter(typeof(JsonEncryptionConverter))]
+		public string Password { get; set; }
+		
+		/// <summary>Gets or sets whether to use BattlEye to connect to server.</summary>
+		public bool BattlEye { get; set; }
 
 		object ICloneable.Clone() => MemberwiseClone();
 		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
+		/// <summary></summary>
 		public ServerInformation Clone() => (ServerInformation) MemberwiseClone();
 
-		private bool Equals(ServerInformation other) => Name == other.Name;
+		private bool Equals(ServerInformation other) => Id == other.Id;
 
 		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && 
 		                                           (ReferenceEquals(this, obj) || 
@@ -62,6 +79,15 @@ namespace ConanServerSwitcher.Models
 
 		public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
 
-		public string ToArgs() => $"-appLaunch 440900 +connect {Address}:{Port}";
+		/// <summary></summary>
+		public string ToArgs() =>
+				new StringBuilder()
+						.Append("-appLaunch 440900 ")
+						//.Append($"+connect {Address}:{Port} ")
+						.Append(BattlEye ? "-BattlEye " : "")
+						.Append($"-serverpwd \"{Password}\" ")
+						.Append($"-serverconnect \"{Address}:{Port}\" ")
+						//.Append($"-modlist=\"{ModList}\" ")
+						.ToString();
 	}
 }

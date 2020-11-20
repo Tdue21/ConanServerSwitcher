@@ -129,6 +129,7 @@ namespace ConanServerSwitcher.ViewModels
 				var result = _config.ServerInformation.FirstOrDefault(i => i.Equals(arg));
 				if (result != null)
 				{
+					Servers.Remove(result);
 					_config.ServerInformation.Remove(result);
 					_configurationService.SaveConfiguration(_config);
 				}

@@ -22,14 +22,32 @@
 // ****************************************************************************
 
 using System;
-using ConanServerSwitcher.Interfaces;
-using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace ConanServerSwitcher.Services
 {
-	public class RegistryService : IRegistryService
+	public class JsonEncryptionConverter : JsonConverter
 	{
-		/// <inheritdoc />
-		public object GetValue(string path, string key, object defaultValue = null) => OperatingSystem.IsWindows() ? Registry.GetValue(path, key, defaultValue) : null;
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			if (!(value is string clearValue))
+			{
+				clearValue = string.Empty;
+			}
+
+			var encrypt = EncryptionHelper.Encrypt(clearValue);
+			writer.WriteValue(encrypt);
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			var value = reader.Value as string;
+			return string.IsNullOrEmpty(value) ? reader.Value : EncryptionHelper.Decrypt(value);
+		}
+
+		public override bool CanConvert(Type objectType)
+		{
+			return objectType == typeof(string);
+		}
 	}
 }

@@ -18,7 +18,7 @@
 	  <Page Remove="Properties\**" />
 	  <Page Remove="SampleData\**" />
 	</ItemGroup>
-
+				  
 	<ItemGroup>
 		<PackageReference Include="DevExpressMvvm" Version="20.1.6" />
 		<PackageReference Include="Gameloop.Vdf" Version="0.6.1" />
@@ -35,6 +35,21 @@
 		<Resource Include="Assets\trash-can-outline.png" />
 		<Resource Include="Assets\folder-open.png" />
 		<Resource Include="Assets\file-outline.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Localization\Localization.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Localization.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Localization\Localization.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>
