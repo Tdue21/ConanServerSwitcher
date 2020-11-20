@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -61,36 +62,34 @@ namespace ConanServerSwitcher.ViewModels
 		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 		
 		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
+		
+		public ICommand CopyModList => new DelegateCommand(ExecuteCopyModlist);
 
 		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
 
 		public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
 
-		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame);
+		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame, s => s != null);
 
-		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer);
+		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer, s => s != null);
 
-		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
+		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer, s => s != null);
 
 		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 
-		private void ExecuteCloseApplication()
+		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
+
+		public ServerInformation SelectedServer
 		{
-			if (CurrentWindowService != null)
-			{
-				CurrentWindowService.Close();
-			}
-			else
-			{
-				// TODO: Currently necessary for the notify icon.
-				Application.Current.Shutdown(0);
-			}
+			get => GetProperty(() => SelectedServer);
+			set => SetProperty(() => SelectedServer, value);
 		}
 
 		private void ExecuteInitialize()
 		{
 			var doSave = false;
 			_config = _configurationService.LoadConfiguration();
+
 			if (string.IsNullOrWhiteSpace(_config.SteamExecutable))
 			{
 				_config.SteamExecutable = _steamLocator.GetSteamPath();
@@ -121,6 +120,11 @@ namespace ConanServerSwitcher.ViewModels
 			{
 				_processManagementService.StartProcess(_config.SteamExecutable, _config.GameFolder, arg);
 			}
+		}
+
+		private void ExecuteCopyModlist()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void ExecuteSettingsDialog()

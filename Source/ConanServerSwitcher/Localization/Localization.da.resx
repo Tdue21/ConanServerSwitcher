@@ -99,7 +99,7 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="AddServer" xml:space="preserve">
-		<value>_Tilføj server</value>
+		<value>Tilføj server</value>
 	</data>
 	<data name="ApplicationSettings" xml:space="preserve">
 		<value>Program indstillinger</value>
@@ -114,7 +114,7 @@
 		<value>_Afbryd</value>
 	</data>
 	<data name="Close" xml:space="preserve">
-		<value>_Luk</value>
+		<value>Luk</value>
 	</data>
 	<data name="DeleteServerEntryCaption" xml:space="preserve">
 		<value>Slet server</value>
@@ -162,7 +162,7 @@
 		<value>Server_port</value>
 	</data>
 	<data name="Settings" xml:space="preserve">
-		<value>Ind_stillinger</value>
+		<value>Indstillinger</value>
 	</data>
 	<data name="StartGame" xml:space="preserve">
 		<value>Start spil</value>
@@ -171,9 +171,51 @@
 		<value>Steam _eksekverbar</value>
 	</data>
 	<data name="Password" xml:space="preserve">
-		<value>Password</value>
+		<value>Kodeord</value>
 	</data>
 	<data name="UseBattlEye" xml:space="preserve">
 		<value>Anvend BattlEye</value>
+	</data>
+	<data name="AddServerToolTip" xml:space="preserve">
+		<value>Tilføj ny server.</value>
+	</data>
+	<data name="CloseToolTip" xml:space="preserve">
+		<value>Lukker applikationen.</value>
+	</data>
+	<data name="CopyModList" xml:space="preserve">
+		<value>Kopiér modlist.</value>
+	</data>
+	<data name="CopyModListToolTip" xml:space="preserve">
+		<value>Kopier seneste servermodlist.txt til ny modlist.</value>
+	</data>
+	<data name="CopyServerModList" xml:space="preserve">
+		<value>Kopier server modlist</value>
+	</data>
+	<data name="DeleteServer" xml:space="preserve">
+		<value>Slet server</value>
+	</data>
+	<data name="DeleteServerToolTip" xml:space="preserve">
+		<value>Sletter den valgte server.</value>
+	</data>
+	<data name="EditServerToolTip" xml:space="preserve">
+		<value>Redigerer den valgte server.</value>
+	</data>
+	<data name="Home" xml:space="preserve">
+		<value>Hjem</value>
+	</data>
+	<data name="Server" xml:space="preserve">
+		<value>Server</value>
+	</data>
+	<data name="SettingsToolTip" xml:space="preserve">
+		<value>Åben applikationsindstillinger.</value>
+	</data>
+	<data name="StartGameToolTip" xml:space="preserve">
+		<value>Starter Conan Exiles spillet, og forbind til den valgte server.</value>
+	</data>
+	<data name="Warning" xml:space="preserve">
+		<value>Advarsel</value>
+	</data>
+	<data name="OnlyOnWindows" xml:space="preserve">
+		<value>Denne applikation vil kun virke på Windows, da den anvender Registreringsdatabasen.</value>
 	</data>
 </root>

@@ -6,12 +6,9 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
-        mc:Ignorable="d" Height="500" Width="450"
+        mc:Ignorable="d" Height="400" Width="500"
         Title="{x:Static ln:Localization.MainWindowTitle}"
 		WindowStartupLocation="CenterScreen"
-		
-		
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
         >
 	<Window.Resources>
@@ -60,7 +57,6 @@
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
 		<dxmvvm:CurrentWindowService />
 		<dxmvvm:MessageBoxService />
-
 		<dxmvvm:WindowService Name="EditServerWindow" 
 		                      AllowSetWindowOwner="True" 
 		                      Title="{x:Static ln:Localization.EditServer}" 
@@ -98,8 +94,8 @@
 
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
-					<Setter Property="Width" Value="350" />
-					<Setter Property="Height" Value="170" />
+					<Setter Property="Width" Value="450" />
+					<Setter Property="Height" Value="250" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False" />
@@ -115,35 +111,64 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-	
+
 		<Ribbon Grid.Row="0">
 			<Ribbon.ApplicationMenu>
 				<RibbonApplicationMenu Visibility="Collapsed"/>
 			</Ribbon.ApplicationMenu>
-			<RibbonTab Header="Home">
-				<RibbonGroup Header="Global">
-					<RibbonButton Label="Add Server"
-					               LargeImageSource="../Assets/plus-circle.png"      
-					               Command="{Binding AddServer}"/>
-					<RibbonButton Label="Settings"          
+			<RibbonTab Header="{x:Static ln:Localization.Home}" KeyTip="H">
+				<RibbonGroup Header="Global" KeyTip="G">
+					<RibbonButton Label="{x:Static ln:Localization.AddServer}"
+					              LargeImageSource="../Assets/plus-circle.png"   
+								  ToolTipTitle="{x:Static ln:Localization.AddServer}"
+								  ToolTipDescription="{x:Static ln:Localization.AddServerToolTip}"
+								  KeyTip="A"
+								  Command="{Binding AddServer}" />
+
+					<RibbonButton Label="{x:Static ln:Localization.CopyModList}"
+					              LargeImageSource="../Assets/data-copy.png"
+								  ToolTipTitle="{x:Static ln:Localization.CopyServerModList}"
+					              ToolTipDescription="{x:Static ln:Localization.CopyModListToolTip}"
+								  KeyTip="M"
+								  Command="{Binding CopyModList}" />
+
+					<RibbonButton Label="{x:Static ln:Localization.Settings}"          
 					              LargeImageSource="../Assets/settings.png"         
+					              ToolTipTitle="{x:Static ln:Localization.Settings}"
+					              ToolTipDescription="{x:Static ln:Localization.SettingsToolTip}"
+								  KeyTip="C"
 					              Command="{Binding SettingsDialog}"/>
-					<RibbonButton Label="Close"             
+
+					<RibbonButton Label="{x:Static ln:Localization.Close}"             
 					              LargeImageSource="../Assets/application-exit.png" 
+					              ToolTipTitle="{x:Static ln:Localization.Close}"
+					              ToolTipDescription="{x:Static ln:Localization.CloseToolTip}"
+								  KeyTip="X"
 					              Command="{Binding CloseApplication}"/>
 				</RibbonGroup>
 
-				<RibbonGroup Header="Server">
-					<RibbonButton Label="Connect to Server" 
+				<RibbonGroup Header="{x:Static ln:Localization.Server}" KeyTip="S">
+					<RibbonButton Label="{x:Static ln:Localization.StartGame}" 
 					              LargeImageSource="../Assets/play.png"              
+					              ToolTipTitle="{x:Static ln:Localization.StartGame}"
+					              ToolTipDescription="{x:Static ln:Localization.StartGameToolTip}"
+								  KeyTip="P"
 					              Command="{Binding RunGame}"
 					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
-					<RibbonButton Label="Edit Server"       
+
+					<RibbonButton Label="{x:Static ln:Localization.EditServer}"       
 					              LargeImageSource="../Assets/pencil-outline.png"    
+					              ToolTipTitle="{x:Static ln:Localization.EditServer}"
+					              ToolTipDescription="{x:Static ln:Localization.EditServerToolTip}"
+								  KeyTip="E"
 					              Command="{Binding EditServer}"
 					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
-					<RibbonButton Label="Delete Server"     
+					
+					<RibbonButton Label="{x:Static ln:Localization.DeleteServer}"     
 					              LargeImageSource="../Assets/trash-can-outline.png" 
+					              ToolTipTitle="{x:Static ln:Localization.DeleteServer}"
+					              ToolTipDescription="{x:Static ln:Localization.DeleteServerToolTip}"
+								  KeyTip="D"
 					              Command="{Binding RemoveServer}"
 					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
 				</RibbonGroup>
@@ -153,6 +178,7 @@
 
 		<ListView Grid.Row="1" x:Name="ServerList"
 		          ItemsSource="{Binding Servers}" BorderThickness="0" 
+				  SelectedItem="{Binding SelectedServer}"
 		          HorizontalContentAlignment="Stretch" Background="White">
 			<ListView.ItemTemplate>
 				<DataTemplate>

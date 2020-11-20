@@ -47,12 +47,12 @@ namespace ConanServerSwitcher
 				;
 		}
 
+		public T Resolve<T>() => _container.Resolve<T>();
+
 		public MainViewModel MainViewModel => _container.Resolve<MainViewModel>();
 		
 		public ServerInformationViewModel ServerInformationViewModel => _container.Resolve<ServerInformationViewModel>();
 		
 		public ApplicationSettingsViewModel ApplicationSettingsViewModel => _container.Resolve<ApplicationSettingsViewModel>();
-
-
 	}
 }

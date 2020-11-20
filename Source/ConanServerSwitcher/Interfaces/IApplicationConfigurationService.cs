@@ -21,6 +21,8 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System.Collections.Generic;
+using System.Globalization;
 using ConanServerSwitcher.Models;
 
 namespace ConanServerSwitcher.Interfaces
@@ -37,5 +39,7 @@ namespace ConanServerSwitcher.Interfaces
 		/// </summary>
 		/// <param name="data"></param>
 		void SaveConfiguration(ApplicationConfiguration data);
+
+		List<CultureInfo> GetAvailableCultures();
 	}
 }

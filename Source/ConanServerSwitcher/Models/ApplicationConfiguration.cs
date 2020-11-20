@@ -33,11 +33,14 @@ namespace ConanServerSwitcher.Models
 		public ApplicationConfiguration()
 		{
 			ServerInformation = new List<ServerInformation>();
+			SelectedCulture = "en";
 		}
 
 		public string SteamExecutable { get; set; }
 
 		public string GameFolder { get; set; }
+
+		public string SelectedCulture { get; set; }
 
 		public List<ServerInformation> ServerInformation { get; }
 
