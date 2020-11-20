@@ -62,7 +62,7 @@ namespace ConanServerSwitcher.ViewModels
 		
 		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
 
-		public ICommand CloseApplication => new DelegateCommand(() => CurrentWindowService?.Close());
+		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
 
 		public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
 
@@ -73,7 +73,20 @@ namespace ConanServerSwitcher.ViewModels
 		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
 
 		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
-		
+
+		private void ExecuteCloseApplication()
+		{
+			if (CurrentWindowService != null)
+			{
+				CurrentWindowService.Close();
+			}
+			else
+			{
+				// TODO: Currently necessary for the notify icon.
+				Application.Current.Shutdown(0);
+			}
+		}
+
 		private void ExecuteInitialize()
 		{
 			var doSave = false;
