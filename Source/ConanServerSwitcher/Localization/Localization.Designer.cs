@@ -61,11 +61,38 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Add Server.
+        ///   Looks up a localized string similar to Action completed.
+        /// </summary>
+        public static string ActionCompleted {
+            get {
+                return ResourceManager.GetString("ActionCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The action was not completed. Please try again..
+        /// </summary>
+        public static string ActionNotCompleted {
+            get {
+                return ResourceManager.GetString("ActionNotCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Server.
         /// </summary>
         public static string AddServer {
             get {
                 return ResourceManager.GetString("AddServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new server entry..
+        /// </summary>
+        public static string AddServerToolTip {
+            get {
+                return ResourceManager.GetString("AddServerToolTip", resourceCulture);
             }
         }
         
@@ -106,11 +133,56 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Close.
+        ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closes the application..
+        /// </summary>
+        public static string CloseToolTip {
+            get {
+                return ResourceManager.GetString("CloseToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy ModList.
+        /// </summary>
+        public static string CopyModList {
+            get {
+                return ResourceManager.GetString("CopyModList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy latest servermodlist.txt to new modlist..
+        /// </summary>
+        public static string CopyModListToolTip {
+            get {
+                return ResourceManager.GetString("CopyModListToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Server ModList.
+        /// </summary>
+        public static string CopyServerModList {
+            get {
+                return ResourceManager.GetString("CopyServerModList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Server.
+        /// </summary>
+        public static string DeleteServer {
+            get {
+                return ResourceManager.GetString("DeleteServer", resourceCulture);
             }
         }
         
@@ -133,11 +205,38 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deletes the selected server entry..
+        /// </summary>
+        public static string DeleteServerToolTip {
+            get {
+                return ResourceManager.GetString("DeleteServerToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Server.
         /// </summary>
         public static string EditServer {
             get {
                 return ResourceManager.GetString("EditServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edits the selected server entry..
+        /// </summary>
+        public static string EditServerToolTip {
+            get {
+                return ResourceManager.GetString("EditServerToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter new ModList name.
+        /// </summary>
+        public static string EnterModListNamePrompt {
+            get {
+                return ResourceManager.GetString("EnterModListNamePrompt", resourceCulture);
             }
         }
         
@@ -151,11 +250,29 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File Exists.
+        /// </summary>
+        public static string FileExists {
+            get {
+                return ResourceManager.GetString("FileExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conan Exiles _Game Folder.
         /// </summary>
         public static string GameFolder {
             get {
                 return ResourceManager.GetString("GameFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -196,6 +313,24 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This application will only work on Windows OS, as it uses the Registry..
+        /// </summary>
+        public static string OnlyOnWindows {
+            get {
+                return ResourceManager.GetString("OnlyOnWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination file {0} already exists. Do you wish to overwrite it?.
+        /// </summary>
+        public static string OverwriteDestinationFile {
+            get {
+                return ResourceManager.GetString("OverwriteDestinationFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -232,11 +367,29 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server _Address.
         /// </summary>
         public static string ServerAddress {
             get {
                 return ResourceManager.GetString("ServerAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ServerModList.txt file has been copied to the new ModList file: {0}..
+        /// </summary>
+        public static string ServerModListCopied {
+            get {
+                return ResourceManager.GetString("ServerModListCopied", resourceCulture);
             }
         }
         
@@ -259,11 +412,20 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Settings.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens the application settings..
+        /// </summary>
+        public static string SettingsToolTip {
+            get {
+                return ResourceManager.GetString("SettingsToolTip", resourceCulture);
             }
         }
         
@@ -273,6 +435,15 @@ namespace ConanServerSwitcher.Localization {
         public static string StartGame {
             get {
                 return ResourceManager.GetString("StartGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starts the Conan Exiles game and connects to the selected server..
+        /// </summary>
+        public static string StartGameToolTip {
+            get {
+                return ResourceManager.GetString("StartGameToolTip", resourceCulture);
             }
         }
         
@@ -295,11 +466,11 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Title.
+        ///   Looks up a localized string similar to Warning.
         /// </summary>
-        public static string Window_Title {
+        public static string Warning {
             get {
-                return ResourceManager.GetString("Window.Title", resourceCulture);
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }

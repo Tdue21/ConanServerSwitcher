@@ -24,7 +24,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
@@ -36,14 +35,18 @@ namespace ConanServerSwitcher.ViewModels
 	{
 		private readonly IApplicationConfigurationService _configurationService;
 		private readonly IProcessManagementService _processManagementService;
+		private readonly IFileSystemService _fileSystem;
 		private readonly ISteamLocator _steamLocator;
+		private readonly IViewModelLocator _vmLocator;
 		private ApplicationConfiguration _config;
 
-		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService, ISteamLocator steamLocator)
+		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService, IFileSystemService fileSystem, ISteamLocator steamLocator, IViewModelLocator vmLocator)
 		{
 			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
 			_processManagementService = processManagementService ?? throw new ArgumentNullException(nameof(processManagementService));
+			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 			_steamLocator = steamLocator ?? throw new ArgumentNullException(nameof(steamLocator));
+			_vmLocator = vmLocator ?? throw new ArgumentNullException(nameof(vmLocator));
 
 			Servers = new ObservableCollection<ServerInformation>();
 		}
@@ -51,33 +54,44 @@ namespace ConanServerSwitcher.ViewModels
 		public ObservableCollection<ServerInformation> Servers { get; set; }
 
 		public IWindowService EditServerWindow => GetService<IWindowService>("EditServerWindow");
-		
-		public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
+
+		public IWindowService EnterPromptWindow => GetService<IWindowService>("EnterPromptWindow");
 
 		public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
+
+		public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 		
 		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 		
 		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 		
 		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
+		
+		public ICommand CopyModList => new DelegateCommand(ExecuteCopyModList);
 
-		public ICommand CloseApplication => new DelegateCommand(() => CurrentWindowService?.Close());
+		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
 
 		public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
 
-		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame);
+		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame, s => s != null);
 
-		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer);
+		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer, s => s != null);
 
-		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer);
+		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer, s => s != null);
 
-		private bool AcceptMessageBox(string caption, string message) => MessageBoxService.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
-		
+		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
+
+		public ServerInformation SelectedServer
+		{
+			get => GetProperty(() => SelectedServer);
+			set => SetProperty(() => SelectedServer, value);
+		}
+
 		private void ExecuteInitialize()
 		{
 			var doSave = false;
 			_config = _configurationService.LoadConfiguration();
+
 			if (string.IsNullOrWhiteSpace(_config.SteamExecutable))
 			{
 				_config.SteamExecutable = _steamLocator.GetSteamPath();
@@ -104,9 +118,61 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteRunGame(ServerInformation arg)
 		{
-			if (AcceptMessageBox(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
+			if (MessageBoxService.Accept(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
 			{
 				_processManagementService.StartProcess(_config.SteamExecutable, _config.GameFolder, arg);
+			}
+		}
+
+		private void ExecuteCopyModList()
+		{
+			var vm = _vmLocator.ResolveViewModel<EnterPromptViewModel>();
+			if (vm != null)
+			{
+				vm.Prompt = Localization.Localization.EnterModListNamePrompt;
+				vm.Value = "";
+
+				EnterPromptWindow.Show("", vm);
+				var result = vm.Value;
+
+				if (!string.IsNullOrWhiteSpace(result))
+				{
+					// ReSharper disable once StringLiteralTypo
+					var sourcePath = _steamLocator.GetAppPath(440900, @"servermodlist.txt");
+					if (!string.IsNullOrWhiteSpace(sourcePath) && _fileSystem.FileExists(sourcePath))
+					{
+
+						var modPath = _steamLocator.GetAppPath(440900, "mods");
+						if (!_fileSystem.PathExists(modPath))
+						{
+							_fileSystem.CreatePath(modPath);
+						}
+
+						if (!result.EndsWith(".txt"))
+						{
+							result += ".txt";
+						}
+
+						var destinationPath = _fileSystem.GetFullPath(modPath, result);
+						var doAction = !(_fileSystem.FileExists(destinationPath) && !MessageBoxService.Accept(Localization.Localization.FileExists,
+								                 string.Format(Localization.Localization.OverwriteDestinationFile, destinationPath)));
+
+						if (doAction)
+						{
+							_fileSystem.CopyFile(sourcePath, destinationPath);
+
+							MessageBoxService.Information(
+									Localization.Localization.ActionCompleted,
+									string.Format(Localization.Localization.ServerModListCopied, destinationPath));
+						}
+						else
+						{
+							MessageBoxService.Warning(
+									Localization.Localization.Warning, 
+									Localization.Localization.ActionNotCompleted);
+						}
+					}
+				}
 			}
 		}
 
@@ -124,7 +190,7 @@ namespace ConanServerSwitcher.ViewModels
 
 		private void ExecuteRemoveServer(ServerInformation arg)
 		{
-			if (AcceptMessageBox(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
+			if (MessageBoxService.Accept(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
 			{
 				var result = _config.ServerInformation.FirstOrDefault(i => i.Equals(arg));
 				if (result != null)

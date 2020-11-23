@@ -22,6 +22,8 @@
 // ****************************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
@@ -65,6 +67,15 @@ namespace ConanServerSwitcher.Services
 		{
 			var result = JsonConvert.SerializeObject(data, Formatting.Indented);
 			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
+		}
+
+		public List<CultureInfo> GetAvailableCultures()
+		{
+			return new List<CultureInfo>
+			{
+					CultureInfo.GetCultureInfo("en"),
+					CultureInfo.GetCultureInfo("da")
+			};
 		}
 	}
 }

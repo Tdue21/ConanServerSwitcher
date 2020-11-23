@@ -21,9 +21,13 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
+using System.Runtime.InteropServices;
+using System.Windows;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Services;
 using ConanServerSwitcher.ViewModels;
+using DevExpress.Mvvm;
+using DevExpress.Mvvm.UI;
 using Unity;
 using Unity.Lifetime;
 
@@ -44,15 +48,19 @@ namespace ConanServerSwitcher
 			                                 .RegisterType<MainViewModel>()
 			                                 .RegisterType<ServerInformationViewModel>()
 			                                 .RegisterType<ApplicationSettingsViewModel>()
+			                                 .RegisterType<EnterPromptViewModel>()
+
+			                                 .RegisterInstance(ViewModelLocator.Default)
+			                                 .RegisterInstance(ViewLocator.Default)
 				;
 		}
+
+		public T Resolve<T>() => _container.Resolve<T>();
 
 		public MainViewModel MainViewModel => _container.Resolve<MainViewModel>();
 		
 		public ServerInformationViewModel ServerInformationViewModel => _container.Resolve<ServerInformationViewModel>();
 		
 		public ApplicationSettingsViewModel ApplicationSettingsViewModel => _container.Resolve<ApplicationSettingsViewModel>();
-
-
 	}
 }

@@ -21,14 +21,33 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-namespace ConanServerSwitcher.Interfaces
-{
-	public interface ISteamLocator
-	{
-		string GetSteamPath();
+using System.Windows.Input;
+using DevExpress.Mvvm;
 
-		string GetAppPath(int gameId);
-		
-		string GetAppPath(int gameId, params string[] subFolders);
+namespace ConanServerSwitcher.ViewModels
+{
+	public class EnterPromptViewModel : ViewModelBase
+	{
+		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+
+		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
+
+		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+
+		public string Prompt
+		{
+			get => GetProperty(() => Prompt);
+			set => SetProperty(() => Prompt, value);
+		}
+
+		public string Value
+		{
+			get => GetProperty(() => Value);
+			set => SetProperty(() => Value, value);
+		}
+
+		private void ExecuteDialogAccept() => CurrentWindowService?.Close();
+
+		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
 	}
 }

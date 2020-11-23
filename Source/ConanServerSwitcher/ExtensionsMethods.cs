@@ -23,6 +23,8 @@
 
 using System;
 using System.IO;
+using System.Windows;
+using DevExpress.Mvvm;
 
 namespace ConanServerSwitcher
 {
@@ -47,5 +49,17 @@ namespace ConanServerSwitcher
 
 			return !ReferenceEquals(fi, null);
 		}
+
+		public static T ResolveViewModel<T>(this IViewModelLocator vml) => (T)vml?.ResolveViewModel(typeof(T).Name);
+
+		public static void Warning(this IMessageBoxService messageBox, string caption, string message) => 
+				messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+		public static void Information(this IMessageBoxService messageBox, string caption, string message) =>
+				messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Information);
+
+		public static bool Accept(this IMessageBoxService messageBox, string caption, string message) =>
+				messageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+
 	}
 }

@@ -21,14 +21,12 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-namespace ConanServerSwitcher.Interfaces
-{
-	public interface ISteamLocator
-	{
-		string GetSteamPath();
+using DevExpress.Mvvm.UI;
 
-		string GetAppPath(int gameId);
+namespace ConanServerSwitcher.Services
+{
+	public class DialogWindowService : WindowService
+	{
 		
-		string GetAppPath(int gameId, params string[] subFolders);
 	}
 }
