@@ -4,9 +4,21 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<ApplicationIcon>Assets\ConanSwitcher.ico</ApplicationIcon>
+		
+		<Authors>Thomas Due</Authors>
+		<Company>Thomas Due</Company>
+		<Product>Conan Exiles Server Switcher</Product>
+		<AssemblyVersion>1.1.0.0</AssemblyVersion>
+		<FileVersion>1.1.0.0</FileVersion>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Copyright>Copyright © by Thomas Due</Copyright>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="System.Runtime" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Remove="Properties\**" />

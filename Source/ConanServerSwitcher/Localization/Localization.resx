@@ -237,4 +237,22 @@
   <data name="Warning" xml:space="preserve">
 	  <value>Warning</value>
   </data>
+  <data name="EnterModListNamePrompt" xml:space="preserve">
+	  <value>Enter new ModList name</value>
+  </data>
+  <data name="ActionCompleted" xml:space="preserve">
+	  <value>Action completed</value>
+  </data>
+  <data name="ServerModListCopied" xml:space="preserve">
+	  <value>The ServerModList.txt file has been copied to the new ModList file: {0}.</value>
+  </data>
+  <data name="FileExists" xml:space="preserve">
+	  <value>File Exists</value>
+  </data>
+  <data name="OverwriteDestinationFile" xml:space="preserve">
+	  <value>Destination file {0} already exists. Do you wish to overwrite it?</value>
+  </data>
+  <data name="ActionNotCompleted" xml:space="preserve">
+	  <value>The action was not completed. Please try again.</value>
+  </data>
 </root>

@@ -57,6 +57,32 @@
 		<dxmvvm:EventToCommand EventName="Loaded" Command="{Binding Initialize}" />
 		<dxmvvm:CurrentWindowService />
 		<dxmvvm:MessageBoxService />
+
+		<!-- ***** Enter Prompt View ***** -->
+		<dxmvvm:WindowService Name="EnterPromptWindow" 
+		                      AllowSetWindowOwner="True"
+		                      Title="{x:Static ln:Localization.EnterModListNamePrompt}"
+		                      WindowShowMode="Dialog"
+		                      WindowType="Window"
+		                      WindowStartupLocation="CenterOwner">
+			<dxmvvm:WindowService.ViewTemplate>
+				<DataTemplate>
+					<views:EnterPromptView />
+				</DataTemplate>
+			</dxmvvm:WindowService.ViewTemplate>
+
+			<dxmvvm:WindowService.WindowStyle>
+				<Style TargetType="Window">
+					<Setter Property="Width" Value="300" />
+					<Setter Property="Height" Value="140" />
+					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
+					<Setter Property="ResizeMode" Value="NoResize" />
+					<Setter Property="ShowInTaskbar" Value="False" />
+				</Style>
+			</dxmvvm:WindowService.WindowStyle>
+		</dxmvvm:WindowService>
+
+		<!-- ***** Server Editor View ***** -->
 		<dxmvvm:WindowService Name="EditServerWindow" 
 		                      AllowSetWindowOwner="True" 
 		                      Title="{x:Static ln:Localization.EditServer}" 
@@ -72,7 +98,7 @@
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
 					<Setter Property="Width" Value="450" />
-					<Setter Property="Height" Value="300" />
+					<Setter Property="Height" Value="320" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False" />
@@ -80,6 +106,7 @@
 			</dxmvvm:WindowService.WindowStyle>
 		</dxmvvm:WindowService>
 
+		<!-- ***** Application Settings View ***** -->
 		<dxmvvm:WindowService Name="ApplicationSettingsWindow"
 		                      AllowSetWindowOwner="True"
 		                      Title="{x:Static ln:Localization.ApplicationSettings}"
@@ -95,7 +122,7 @@
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
 					<Setter Property="Width" Value="450" />
-					<Setter Property="Height" Value="250" />
+					<Setter Property="Height" Value="230" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False" />

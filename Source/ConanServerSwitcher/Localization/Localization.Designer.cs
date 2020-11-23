@@ -61,6 +61,24 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action completed.
+        /// </summary>
+        public static string ActionCompleted {
+            get {
+                return ResourceManager.GetString("ActionCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The action was not completed. Please try again..
+        /// </summary>
+        public static string ActionNotCompleted {
+            get {
+                return ResourceManager.GetString("ActionNotCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Server.
         /// </summary>
         public static string AddServer {
@@ -214,11 +232,29 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter new ModList name.
+        /// </summary>
+        public static string EnterModListNamePrompt {
+            get {
+                return ResourceManager.GetString("EnterModListNamePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Executable files (*.exe)|*.exe.
         /// </summary>
         public static string ExecuteFilesFilter {
             get {
                 return ResourceManager.GetString("ExecuteFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Exists.
+        /// </summary>
+        public static string FileExists {
+            get {
+                return ResourceManager.GetString("FileExists", resourceCulture);
             }
         }
         
@@ -286,6 +322,15 @@ namespace ConanServerSwitcher.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destination file {0} already exists. Do you wish to overwrite it?.
+        /// </summary>
+        public static string OverwriteDestinationFile {
+            get {
+                return ResourceManager.GetString("OverwriteDestinationFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -336,6 +381,15 @@ namespace ConanServerSwitcher.Localization {
         public static string ServerAddress {
             get {
                 return ResourceManager.GetString("ServerAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ServerModList.txt file has been copied to the new ModList file: {0}..
+        /// </summary>
+        public static string ServerModListCopied {
+            get {
+                return ResourceManager.GetString("ServerModListCopied", resourceCulture);
             }
         }
         

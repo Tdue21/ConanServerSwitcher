@@ -75,5 +75,19 @@ namespace ConanServerSwitcher.Interfaces
 		/// <param name="path"></param>
 		/// <returns></returns>
 		string GetDirectoryName(string path);
+
+		/// <summary>Returns <c>true</c> if the path exists.</summary>
+		/// <param name="path">Path to check.</param>
+		/// <returns><c>True</c> if the path exists, otherwise <c>false</c>.</returns>
+		bool PathExists(string path);
+
+		/// <summary>Creates the supplied path.</summary>
+		/// <param name="path">The path to create.</param>
+		void CreatePath(string path);
+
+		/// <summary>Returns <c>true</c> if the path exists.</summary>
+		/// <param name="path">Path to check.</param>
+		/// <returns><c>True</c> if the path exists, otherwise <c>false</c>.</returns>
+		bool FileExists(string path);
 	}
 }

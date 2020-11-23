@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
+using DevExpress.Mvvm.Native;
 using Gameloop.Vdf.Linq;
 
 // ReSharper disable StringLiteralsWordIsNotInDictionary
@@ -61,6 +62,15 @@ namespace ConanServerSwitcher.Services
 
 
 			return installPath;
+		}
+
+		public string GetAppPath(int gameId, params string[] subFolders)
+		{
+			var appPath = GetAppPath(gameId);
+			var args = new List<string> { appPath};
+			args.AddRange(subFolders);
+
+			return _fileSystemService.GetFullPath(args.ToArray());
 		}
 
 		private IEnumerable<string> GetLibraryFolders()

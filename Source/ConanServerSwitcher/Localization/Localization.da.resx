@@ -218,4 +218,22 @@
 	<data name="OnlyOnWindows" xml:space="preserve">
 		<value>Denne applikation vil kun virke på Windows, da den anvender Registreringsdatabasen.</value>
 	</data>
+	<data name="EnterModListNamePrompt" xml:space="preserve">
+		<value>Indtast nyt ModList navn</value>
+	</data>
+	<data name="ActionCompleted" xml:space="preserve">
+		<value>Handling fuldført</value>
+	</data>
+	<data name="ServerModListCopied" xml:space="preserve">
+		<value>ServerModList.txt filen er blevet kopieret til ModList filen: {0}.</value>
+	</data>
+	<data name="ActionNotCompleted" xml:space="preserve">
+		<value>Handlingen blev ikke gennemført. Prøv venligst igen.</value>
+	</data>
+	<data name="FileExists" xml:space="preserve">
+		<value>Filen eksisterer allerede.</value>
+	</data>
+	<data name="OverwriteDestinationFile" xml:space="preserve">
+		<value>Destinationsfilen eksisterer allerede. Ønsker du at overskrive den?</value>
+	</data>
 </root>
