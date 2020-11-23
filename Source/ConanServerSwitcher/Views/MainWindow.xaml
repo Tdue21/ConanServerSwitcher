@@ -1,4 +1,4 @@
-﻿<Window x:Class="ConanServerSwitcher.MainWindow"
+﻿<RibbonWindow x:Class="ConanServerSwitcher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,8 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
-        mc:Ignorable="d" Height="500" Width="450"
-        Title="{x:Static ln:Localization.MainWindowTitle}" 
+        mc:Ignorable="d" Height="400" Width="500"
+        Title="{x:Static ln:Localization.MainWindowTitle}"
 		WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
         >
@@ -59,6 +58,31 @@
 		<dxmvvm:CurrentWindowService />
 		<dxmvvm:MessageBoxService />
 
+		<!-- ***** Enter Prompt View ***** -->
+		<dxmvvm:WindowService Name="EnterPromptWindow" 
+		                      AllowSetWindowOwner="True"
+		                      Title="{x:Static ln:Localization.EnterModListNamePrompt}"
+		                      WindowShowMode="Dialog"
+		                      WindowType="Window"
+		                      WindowStartupLocation="CenterOwner">
+			<dxmvvm:WindowService.ViewTemplate>
+				<DataTemplate>
+					<views:EnterPromptView />
+				</DataTemplate>
+			</dxmvvm:WindowService.ViewTemplate>
+
+			<dxmvvm:WindowService.WindowStyle>
+				<Style TargetType="Window">
+					<Setter Property="Width" Value="300" />
+					<Setter Property="Height" Value="140" />
+					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
+					<Setter Property="ResizeMode" Value="NoResize" />
+					<Setter Property="ShowInTaskbar" Value="False" />
+				</Style>
+			</dxmvvm:WindowService.WindowStyle>
+		</dxmvvm:WindowService>
+
+		<!-- ***** Server Editor View ***** -->
 		<dxmvvm:WindowService Name="EditServerWindow" 
 		                      AllowSetWindowOwner="True" 
 		                      Title="{x:Static ln:Localization.EditServer}" 
@@ -74,7 +98,7 @@
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
 					<Setter Property="Width" Value="450" />
-					<Setter Property="Height" Value="300" />
+					<Setter Property="Height" Value="320" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False" />
@@ -82,6 +106,7 @@
 			</dxmvvm:WindowService.WindowStyle>
 		</dxmvvm:WindowService>
 
+		<!-- ***** Application Settings View ***** -->
 		<dxmvvm:WindowService Name="ApplicationSettingsWindow"
 		                      AllowSetWindowOwner="True"
 		                      Title="{x:Static ln:Localization.ApplicationSettings}"
@@ -96,8 +121,8 @@
 
 			<dxmvvm:WindowService.WindowStyle>
 				<Style TargetType="Window">
-					<Setter Property="Width" Value="350" />
-					<Setter Property="Height" Value="170" />
+					<Setter Property="Width" Value="450" />
+					<Setter Property="Height" Value="230" />
 					<Setter Property="WindowStyle" Value="SingleBorderWindow" />
 					<Setter Property="ResizeMode" Value="NoResize" />
 					<Setter Property="ShowInTaskbar" Value="False" />
@@ -108,78 +133,85 @@
 
 	</dxmvvm:Interaction.Behaviors>
 
-	<Grid Margin="10">
+	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<tb:TaskbarIcon x:Name="TaskbarIcon"
-		                Visibility="Visible"
-		                ToolTipText="Conan Exiles Server switcher"
-						IconSource="/Assets/ConanSwitcher.ico"
-						MenuActivation="LeftOrRightClick"
-						PopupActivation="DoubleClick">
-			<tb:TaskbarIcon.ContextMenu>
-				<ContextMenu>
-					<ContextMenu.ItemsSource>
-						<CompositeCollection>
-							<CollectionContainer Collection="{Binding Servers}" />
-							<Separator />
-							<MenuItem Header="Exit" />
-						</CompositeCollection>
-					</ContextMenu.ItemsSource>
+		<Ribbon Grid.Row="0">
+			<Ribbon.ApplicationMenu>
+				<RibbonApplicationMenu Visibility="Collapsed"/>
+			</Ribbon.ApplicationMenu>
+			<RibbonTab Header="{x:Static ln:Localization.Home}" KeyTip="H">
+				<RibbonGroup Header="Global" KeyTip="G">
+					<RibbonButton Label="{x:Static ln:Localization.AddServer}"
+					              LargeImageSource="../Assets/plus-circle.png"   
+								  ToolTipTitle="{x:Static ln:Localization.AddServer}"
+								  ToolTipDescription="{x:Static ln:Localization.AddServerToolTip}"
+								  KeyTip="A"
+								  Command="{Binding AddServer}" />
 
-					<ContextMenu.ItemTemplate>
-						<DataTemplate>
-							<MenuItem Header="{Binding Name}"></MenuItem>
-						</DataTemplate>
-					</ContextMenu.ItemTemplate>
-				</ContextMenu>
-			</tb:TaskbarIcon.ContextMenu>
-		</tb:TaskbarIcon>
+					<RibbonButton Label="{x:Static ln:Localization.CopyModList}"
+					              LargeImageSource="../Assets/data-copy.png"
+								  ToolTipTitle="{x:Static ln:Localization.CopyServerModList}"
+					              ToolTipDescription="{x:Static ln:Localization.CopyModListToolTip}"
+								  KeyTip="M"
+								  Command="{Binding CopyModList}" />
 
-		<!--<tb:TaskbarIcon x:Name="myNotifyIcon"
-		                Visibility="Visible"
-		                ToolTipText="Fallback ToolTip for Windows xp"
-		                IconSource="/Images/TrayIcons/Logo.ico"
-		                ContextMenu="{StaticResource TrayMenu}"
-		                MenuActivation="LeftOrRightClick"
-		                TrayPopup="\{StaticResoure TrayStatusPopup\}"
-		                PopupActivation="DoubleClick"
-		                TrayToolTip="{StaticResource TrayToolTip}"
-		/>-->
+					<RibbonButton Label="{x:Static ln:Localization.Settings}"          
+					              LargeImageSource="../Assets/settings.png"         
+					              ToolTipTitle="{x:Static ln:Localization.Settings}"
+					              ToolTipDescription="{x:Static ln:Localization.SettingsToolTip}"
+								  KeyTip="C"
+					              Command="{Binding SettingsDialog}"/>
 
+					<RibbonButton Label="{x:Static ln:Localization.Close}"             
+					              LargeImageSource="../Assets/application-exit.png" 
+					              ToolTipTitle="{x:Static ln:Localization.Close}"
+					              ToolTipDescription="{x:Static ln:Localization.CloseToolTip}"
+								  KeyTip="X"
+					              Command="{Binding CloseApplication}"/>
+				</RibbonGroup>
 
-		<ListView Grid.Row="0" x:Name="ServerList"
+				<RibbonGroup Header="{x:Static ln:Localization.Server}" KeyTip="S">
+					<RibbonButton Label="{x:Static ln:Localization.StartGame}" 
+					              LargeImageSource="../Assets/play.png"              
+					              ToolTipTitle="{x:Static ln:Localization.StartGame}"
+					              ToolTipDescription="{x:Static ln:Localization.StartGameToolTip}"
+								  KeyTip="P"
+					              Command="{Binding RunGame}"
+					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
+
+					<RibbonButton Label="{x:Static ln:Localization.EditServer}"       
+					              LargeImageSource="../Assets/pencil-outline.png"    
+					              ToolTipTitle="{x:Static ln:Localization.EditServer}"
+					              ToolTipDescription="{x:Static ln:Localization.EditServerToolTip}"
+								  KeyTip="E"
+					              Command="{Binding EditServer}"
+					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
+					
+					<RibbonButton Label="{x:Static ln:Localization.DeleteServer}"     
+					              LargeImageSource="../Assets/trash-can-outline.png" 
+					              ToolTipTitle="{x:Static ln:Localization.DeleteServer}"
+					              ToolTipDescription="{x:Static ln:Localization.DeleteServerToolTip}"
+								  KeyTip="D"
+					              Command="{Binding RemoveServer}"
+					              CommandParameter="{Binding ElementName=ServerList, Path=SelectedItem}"/>
+				</RibbonGroup>
+
+			</RibbonTab>
+		</Ribbon>
+
+		<ListView Grid.Row="1" x:Name="ServerList"
 		          ItemsSource="{Binding Servers}" BorderThickness="0" 
+				  SelectedItem="{Binding SelectedServer}"
 		          HorizontalContentAlignment="Stretch" Background="White">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<DockPanel>
-						<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-							<Button Width="32" Height="32"
-							        Command="{Binding ElementName=ServerList, Path=DataContext.RunGame}"
-							        CommandParameter="{Binding}" 
-							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/play.png" Width="24" Height="24" />
-							</Button>
-							<Button Width="32" Height="32" 
-							        Command="{Binding ElementName=ServerList, Path=DataContext.EditServer}"
-							        CommandParameter="{Binding}"
-							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/pencil-outline.png" Width="24" Height="24" />
-							</Button>
-							<Button Width="32" Height="32" 
-							        Command="{Binding ElementName=ServerList, Path=DataContext.RemoveServer}" 
-							        CommandParameter="{Binding}"
-							        Template="{DynamicResource ActionButtons}">
-								<Image Source="../Assets/trash-can-outline.png" Width="24" Height="24" />
-							</Button>
-						</StackPanel>
-
+					<Border BorderBrush="DarkRed" BorderThickness="2" CornerRadius="5,5,5,5" Padding="5">
 						<StackPanel Orientation="Vertical">
-							<TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
+							<TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" Padding="0,0,0,5" />
 							<TextBlock>
 								<TextBlock.Text>
 									<MultiBinding StringFormat="{}{0}:{1}">
@@ -191,33 +223,10 @@
 								</TextBlock.Text>
 							</TextBlock>
 						</StackPanel>
-
-
-					</DockPanel>
+					</Border>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
 
-		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="120" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="120" />
-				<ColumnDefinition Width="6" />
-				<ColumnDefinition Width="120" />
-			</Grid.ColumnDefinitions>
-
-			<Button Grid.Column="0" Command="{Binding AddServer}">
-				<Button.Content>
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-						<Image Source="../Assets/plus-circle.png" Height="16" Width="16" Margin="0"></Image>
-						<Label Padding="0" Margin="10,0" Content="{x:Static ln:Localization.AddServer}"/>
-					</StackPanel>
-				</Button.Content>
-			</Button>
-			<Button Grid.Column="2" Content="{x:Static ln:Localization.Settings}" Command="{Binding SettingsDialog}"/>
-			<Button Grid.Column="4" Content="{x:Static ln:Localization.Close}" Command="{Binding CloseApplication}" />
-		</Grid>
-
 	</Grid>
-</Window>
+</RibbonWindow>

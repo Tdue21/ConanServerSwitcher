@@ -67,5 +67,14 @@ namespace ConanServerSwitcher.Services
 
 		/// <inheritdoc />
 		public string GetDirectoryName(string path) => Path.GetDirectoryName(path);
+
+		/// <inheritdoc />
+		public bool PathExists(string path) => Directory.Exists(path);
+
+		/// <inheritdoc />
+		public void CreatePath(string path) => Directory.CreateDirectory(path);
+
+		/// <inheritdoc />
+		public bool FileExists(string path) => File.Exists(path);
 	}
 }

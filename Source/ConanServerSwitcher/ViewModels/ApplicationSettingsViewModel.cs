@@ -22,6 +22,10 @@
 // ****************************************************************************
 
 using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Resources;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
@@ -55,6 +59,17 @@ namespace ConanServerSwitcher.ViewModels
 
 		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
 
+		public ObservableCollection<CultureInfo> AvailableCultures
+		{
+			get => GetProperty(() => AvailableCultures);
+			set => SetProperty(() => AvailableCultures, value);
+		}
+
+		public CultureInfo SelectedCulture
+		{
+			get => GetProperty(() => SelectedCulture);
+			set => SetProperty(() => SelectedCulture, value);
+		}
 		public string SteamExe 
 		{ 
 			get => GetProperty(() => SteamExe); 
@@ -70,6 +85,11 @@ namespace ConanServerSwitcher.ViewModels
 		private void ExecuteInitialize()
 		{
 			_config = _configurationService.LoadConfiguration();
+
+			AvailableCultures = new ObservableCollection<CultureInfo>(_configurationService.GetAvailableCultures());
+
+			SelectedCulture =
+					AvailableCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == _config.SelectedCulture);
 			SteamExe = _config.SteamExecutable;
 			GameFolder = _config.GameFolder;
 		}
@@ -94,6 +114,7 @@ namespace ConanServerSwitcher.ViewModels
 		{
 			_config.SteamExecutable = SteamExe;
 			_config.GameFolder = GameFolder;
+			_config.SelectedCulture = SelectedCulture.TwoLetterISOLanguageName;
 			_configurationService.SaveConfiguration(_config);
 
 			CurrentWindowService?.Close();
