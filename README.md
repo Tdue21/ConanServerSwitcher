@@ -4,3 +4,9 @@
 
 # ConanServerSwitcher
 Simple application for switching between Conan Exiles servers. This is especially useful if playing on multiple server with different modlists. 
+
+![Main Screen](/Images/MainScreen.png)
+
+The main screen is composed of 2 main areas. The ribbon at the top exposed controls for managing the application and specific servers. 
+The lower part contains a list of servers. 
+
