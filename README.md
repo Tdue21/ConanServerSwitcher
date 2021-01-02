@@ -16,7 +16,7 @@ Currently, the application is very simple, and this goes for the installation as
 
 Go to Releases and download the latest version of ConanServerSwitcher.zip. Unpack this zip file anywhere and run the ConanServerSwitcher.exe inside. 
 
-##Usage
+## Usage
 
 ### Maintaining Servers
 
