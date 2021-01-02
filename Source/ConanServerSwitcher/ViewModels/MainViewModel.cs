@@ -24,14 +24,16 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
+using GongSolutions.Wpf.DragDrop;
 
 namespace ConanServerSwitcher.ViewModels
 {
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel : ViewModelBase, IDropTarget
 	{
 		private readonly IApplicationConfigurationService _configurationService;
 		private readonly IProcessManagementService _processManagementService;
@@ -200,6 +202,19 @@ namespace ConanServerSwitcher.ViewModels
 					_configurationService.SaveConfiguration(_config);
 				}
 			}
+		}
+
+		private readonly DefaultDropHandler _dropHandler = new DefaultDropHandler();
+		
+		void IDropTarget.DragOver(IDropInfo dropInfo) => _dropHandler.DragOver(dropInfo);
+
+		void IDropTarget.Drop(IDropInfo dropInfo)
+		{
+			_dropHandler.Drop(dropInfo);
+
+			_config.ServerInformation.Clear();
+			_config.ServerInformation.AddRange(Servers);
+			_configurationService.SaveConfiguration(_config);
 		}
 	}
 }
