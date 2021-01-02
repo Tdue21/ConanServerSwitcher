@@ -10,3 +10,24 @@ Simple application for switching between Conan Exiles servers. This is especiall
 The main screen is composed of 2 main areas. The ribbon at the top exposed controls for managing the application and specific servers. 
 The lower part contains a list of servers. 
 
+## Installation
+
+Currently, the application is very simple, and this goes for the installation as well. 
+
+Go to Releases and download the latest version of ConanServerSwitcher.zip. Unpack this zip file anywhere and run the ConanServerSwitcher.exe inside. 
+
+##Usage
+
+### Maintaining Servers
+
+Click "Add Server" to add a new server. The following dialog will show up: 
+
+![Server Settings](/Images/EditServerScreen.png)
+
+Enter the values required and click Ok. 
+
+If you need to edit a server, if e.g. the server password has changed, you select the server in the list, and click "Edit Server". 
+The same windows as above is shown, this time with the data entered. 
+
+If you wish to delete a server from the list, simply select it, and click "Delete Server".
+
