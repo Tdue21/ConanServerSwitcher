@@ -46,7 +46,7 @@
 		<PackageReference Include="DevExpressMvvm" Version="20.1.6" />
 		<PackageReference Include="Gameloop.Vdf" Version="0.6.1" />
 		<PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="Unity" Version="5.11.7" />
 	</ItemGroup>
 
