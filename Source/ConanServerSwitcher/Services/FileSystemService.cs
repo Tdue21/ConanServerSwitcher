@@ -27,54 +27,53 @@ using System.IO;
 using System.Text;
 using ConanServerSwitcher.Interfaces;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Services;
+
+public class FileSystemService : IFileSystemService
 {
-	public class FileSystemService : IFileSystemService
-	{
-		/// <inheritdoc />
-		public string GetLocalApplicationDataPath(string fileName)
-		{
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			if (Directory.Exists(path))
-			{
-				var filePath = Path.Combine(path, "ConanServerSwitcher");
-				if (!Directory.Exists(filePath))
-				{
-					Directory.CreateDirectory(filePath);
-				}
-				return Path.Combine(filePath, fileName);
-			}
-			return fileName;
-		}
+    /// <inheritdoc />
+    public string GetLocalApplicationDataPath(string fileName)
+    {
+        var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        if (Directory.Exists(path))
+        {
+            var filePath = Path.Combine(path, "ConanServerSwitcher");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            return Path.Combine(filePath, fileName);
+        }
+        return fileName;
+    }
 
-		/// <inheritdoc />
-		public bool Exists(string path) => File.Exists(path);
+    /// <inheritdoc />
+    public bool Exists(string path) => File.Exists(path);
 
-		/// <inheritdoc />
-		public string ReadFileContent(string path, Encoding encoding) => File.ReadAllText(path, encoding);
+    /// <inheritdoc />
+    public string ReadFileContent(string path, Encoding encoding) => File.ReadAllText(path, encoding);
 
-		/// <inheritdoc />
-		public void SaveFileContent(string path, string contents, Encoding encoding) => File.WriteAllText(path, contents, encoding);
+    /// <inheritdoc />
+    public void SaveFileContent(string path, string contents, Encoding encoding) => File.WriteAllText(path, contents, encoding);
 
-		/// <inheritdoc />
-		public string GetFullPath(params string[] args) => Path.Combine(args);
+    /// <inheritdoc />
+    public string GetFullPath(params string[] args) => Path.Combine(args);
 
-		/// <inheritdoc />
-		public void CopyFile(string sourceFile, string destinationFile) => File.Copy(sourceFile, destinationFile, true);
+    /// <inheritdoc />
+    public void CopyFile(string sourceFile, string destinationFile) => File.Copy(sourceFile, destinationFile, true);
 
-		/// <inheritdoc />
-		public IEnumerable<string> GetFiles(string path, string mask) => Directory.GetFiles(path, mask, SearchOption.TopDirectoryOnly);
+    /// <inheritdoc />
+    public IEnumerable<string> GetFiles(string path, string mask) => Directory.GetFiles(path, mask, SearchOption.TopDirectoryOnly);
 
-		/// <inheritdoc />
-		public string GetDirectoryName(string path) => Path.GetDirectoryName(path);
+    /// <inheritdoc />
+    public string GetDirectoryName(string path) => Path.GetDirectoryName(path);
 
-		/// <inheritdoc />
-		public bool PathExists(string path) => Directory.Exists(path);
+    /// <inheritdoc />
+    public bool PathExists(string path) => Directory.Exists(path);
 
-		/// <inheritdoc />
-		public void CreatePath(string path) => Directory.CreateDirectory(path);
+    /// <inheritdoc />
+    public void CreatePath(string path) => Directory.CreateDirectory(path);
 
-		/// <inheritdoc />
-		public bool FileExists(string path) => File.Exists(path);
-	}
+    /// <inheritdoc />
+    public bool FileExists(string path) => File.Exists(path);
 }

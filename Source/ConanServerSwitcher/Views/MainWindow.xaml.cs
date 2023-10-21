@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConanServerSwitcher.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,13 @@ using System.Windows.Shapes;
 namespace ConanServerSwitcher.Views;
 
 /// <summary>
-/// Interaction logic for EnterPromptView.xaml
+/// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class EnterPromptView : UserControl
+public partial class MainWindow 
 {
-    public EnterPromptView()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
     }
 }

@@ -24,30 +24,29 @@
 using System.Windows.Input;
 using DevExpress.Mvvm;
 
-namespace ConanServerSwitcher.ViewModels
+namespace ConanServerSwitcher.ViewModels;
+
+public class EnterPromptViewModel : ViewModelBase
 {
-	public class EnterPromptViewModel : ViewModelBase
-	{
-		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+    public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 
-		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
+    public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
 
-		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+    public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
 
-		public string Prompt
-		{
-			get => GetProperty(() => Prompt);
-			set => SetProperty(() => Prompt, value);
-		}
+    public string Prompt
+    {
+        get => GetProperty(() => Prompt);
+        set => SetProperty(() => Prompt, value);
+    }
 
-		public string Value
-		{
-			get => GetProperty(() => Value);
-			set => SetProperty(() => Value, value);
-		}
+    public string Value
+    {
+        get => GetProperty(() => Value);
+        set => SetProperty(() => Value, value);
+    }
 
-		private void ExecuteDialogAccept() => CurrentWindowService?.Close();
+    private void ExecuteDialogAccept() => CurrentWindowService?.Close();
 
-		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
-	}
+    private void ExecuteDialogCancel() => CurrentWindowService?.Close();
 }

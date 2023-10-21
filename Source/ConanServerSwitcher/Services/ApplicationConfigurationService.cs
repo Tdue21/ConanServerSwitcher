@@ -30,52 +30,51 @@ using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
 using Newtonsoft.Json;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Services;
+
+public class ApplicationConfigurationService : IApplicationConfigurationService
 {
-	public class ApplicationConfigurationService : IApplicationConfigurationService
-	{
-		private const string ConfigFile = "ConanServerSwitcherSettings.json";
+    private const string ConfigFile = "ConanServerSwitcherSettings.json";
 
-		private readonly IFileSystemService _fileSystemService;
-		private readonly string _configurationFile;
+    private readonly IFileSystemService _fileSystemService;
+    private readonly string _configurationFile;
 
-		public ApplicationConfigurationService(IFileSystemService fileSystemService)
-		{
-			_fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
-			_configurationFile = _fileSystemService.GetLocalApplicationDataPath(ConfigFile);
-		}
+    public ApplicationConfigurationService(IFileSystemService fileSystemService)
+    {
+        _fileSystemService = fileSystemService ?? throw new ArgumentNullException(nameof(fileSystemService));
+        _configurationFile = _fileSystemService.GetLocalApplicationDataPath(ConfigFile);
+    }
 
-		public ApplicationConfiguration LoadConfiguration()
-		{
-			if (!_fileSystemService.Exists(_configurationFile))
-			{
-				return new ApplicationConfiguration();
-			}
+    public ApplicationConfiguration LoadConfiguration()
+    {
+        if (!_fileSystemService.Exists(_configurationFile))
+        {
+            return new ApplicationConfiguration();
+        }
 
-			var data   = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
-			var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
+        var data = _fileSystemService.ReadFileContent(_configurationFile, Encoding.UTF8);
+        var result = JsonConvert.DeserializeObject<ApplicationConfiguration>(data);
 
-			foreach (var server in result.ServerInformation.Where(server => server.Id.Equals(Guid.Empty)))
-			{
-				server.Id = Guid.NewGuid();
-			}
+        foreach (var server in result.ServerInformation.Where(server => server.Id.Equals(Guid.Empty)))
+        {
+            server.Id = Guid.NewGuid();
+        }
 
-			return result.Clone();
-		}
+        return result.Clone();
+    }
 
-		public void SaveConfiguration(ApplicationConfiguration data)
-		{
-			var result = JsonConvert.SerializeObject(data, Formatting.Indented);
-			_fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
-		}
+    public void SaveConfiguration(ApplicationConfiguration data)
+    {
+        var result = JsonConvert.SerializeObject(data, Formatting.Indented);
+        _fileSystemService.SaveFileContent(_configurationFile, result, Encoding.UTF8);
+    }
 
-		public List<CultureInfo> GetAvailableCultures()
-		{
-			return new List<CultureInfo>
-			{
-					CultureInfo.GetCultureInfo("en"),
-					CultureInfo.GetCultureInfo("da")
-			};
-		}
-	}
+    public List<CultureInfo> GetAvailableCultures()
+    {
+        return new List<CultureInfo>
+            {
+                    CultureInfo.GetCultureInfo("en"),
+                    CultureInfo.GetCultureInfo("da")
+            };
+    }
 }

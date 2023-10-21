@@ -25,11 +25,10 @@ using System;
 using ConanServerSwitcher.Interfaces;
 using Microsoft.Win32;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Services;
+
+public class RegistryService : IRegistryService
 {
-	public class RegistryService : IRegistryService
-	{
-		/// <inheritdoc />
-		public object GetValue(string path, string key, object defaultValue = null) => OperatingSystem.IsWindows() ? Registry.GetValue(path, key, defaultValue) : null;
-	}
+    /// <inheritdoc />
+    public object GetValue(string path, string key, object defaultValue = null) => OperatingSystem.IsWindows() ? Registry.GetValue(path, key, defaultValue) : null;
 }

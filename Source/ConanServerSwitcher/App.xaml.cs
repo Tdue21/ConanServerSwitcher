@@ -25,31 +25,90 @@ using System;
 using System.Globalization;
 using System.Windows;
 using ConanServerSwitcher.Interfaces;
+using ConanServerSwitcher.Services;
+using ConanServerSwitcher.ViewModels;
+using DevExpress.Mvvm;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using ConanServerSwitcher.Views;
+using DevExpress.Mvvm.UI;
 
-namespace ConanServerSwitcher
+namespace ConanServerSwitcher;
+
+public partial class App
 {
-	public partial class App
-	{
-		protected override void OnStartup(StartupEventArgs e)
-		{
-			var config = new DependencyInjector().Resolve<IApplicationConfigurationService>();
-			var data = config.LoadConfiguration();
+    private readonly IHost _host;
+    private IConfigurationRoot _configuration;
 
-			Localization.Localization.Culture = CultureInfo.GetCultureInfo(data.SelectedCulture);
-			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(data.SelectedCulture);
-			CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(data.SelectedCulture);
+    public App()
+    {
+        _host = Host.CreateDefaultBuilder()
+                    .ConfigureAppConfiguration(ConfigureApplication)
+                    .ConfigureServices(ConfigureServices)
+                    .Build();
+    }
 
-			if (!OperatingSystem.IsWindows())
-			{
-				MessageBox.Show(
-						Localization.Localization.OnlyOnWindows,
-						Localization.Localization.Warning,
-						MessageBoxButton.OK,
-						MessageBoxImage.Stop);
-				Current.Shutdown();
-			}
+    private void ConfigureApplication(HostBuilderContext context, IConfigurationBuilder configBuilder)
+    {
+        _configuration = configBuilder.Build();
+    }
 
-			base.OnStartup(e);
-		}
-	}
+    private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+    {
+        // Services
+        services.AddTransient<ISteamLocator, SteamLocator>()
+            .AddTransient<IRegistryService, RegistryService>()
+            .AddTransient<IFileSystemService, FileSystemService>()
+                .AddTransient<IProcessManagementService, ProcessManagementService>()
+                .AddTransient<IApplicationConfigurationService, ApplicationConfigurationService>();
+
+        // View Models
+        services.AddTransient<MainViewModel>()
+                .AddTransient<ServerInformationViewModel>()
+                .AddTransient<ApplicationSettingsViewModel>()
+                .AddTransient<EnterPromptViewModel>();
+
+        // Views
+        services//.AddSingleton<ServerInformationView>()
+                //.AddSingleton<ApplicationSettingsView>()
+                //.AddSingleton<EnterPromptView>()
+                    .AddSingleton<IViewLocator>(ViewLocator.Default)
+                    .AddSingleton<IViewModelLocator>(ViewModelLocator.Default)
+                .AddSingleton<MainWindow>();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var config = _host.Services.GetRequiredService<IApplicationConfigurationService>();
+        var data = config.LoadConfiguration();
+
+        Localization.Localization.Culture = CultureInfo.GetCultureInfo(data.SelectedCulture);
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(data.SelectedCulture);
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(data.SelectedCulture);
+
+        if (!OperatingSystem.IsWindows())
+        {
+            MessageBox.Show(
+                    Localization.Localization.OnlyOnWindows,
+                    Localization.Localization.Warning,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Stop);
+            Current.Shutdown();
+        }
+
+        var window = _host.Services.GetRequiredService<MainWindow>();
+        window.Show();
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        using (_host)
+        {
+            await _host.StopAsync();
+        }
+        base.OnExit(e);
+    }
 }

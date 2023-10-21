@@ -1,10 +1,9 @@
-﻿namespace ConanServerSwitcher.Views
+﻿namespace ConanServerSwitcher.Views;
+
+public partial class ApplicationSettingsView
 {
-    public partial class ApplicationSettingsView
+    public ApplicationSettingsView()
     {
-        public ApplicationSettingsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

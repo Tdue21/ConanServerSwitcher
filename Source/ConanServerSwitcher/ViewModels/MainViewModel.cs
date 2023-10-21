@@ -24,197 +24,195 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
 using GongSolutions.Wpf.DragDrop;
 
-namespace ConanServerSwitcher.ViewModels
+namespace ConanServerSwitcher.ViewModels;
+
+public class MainViewModel : ViewModelBase, IDropTarget
 {
-	public class MainViewModel : ViewModelBase, IDropTarget
-	{
-		private readonly IApplicationConfigurationService _configurationService;
-		private readonly IProcessManagementService _processManagementService;
-		private readonly IFileSystemService _fileSystem;
-		private readonly ISteamLocator _steamLocator;
-		private readonly IViewModelLocator _vmLocator;
-		private ApplicationConfiguration _config;
+    private readonly IApplicationConfigurationService _configurationService;
+    private readonly IProcessManagementService _processManagementService;
+    private readonly IFileSystemService _fileSystem;
+    private readonly ISteamLocator _steamLocator;
+    private readonly IViewModelLocator _vmLocator;
+    private ApplicationConfiguration _config;
 
-		public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService, IFileSystemService fileSystem, ISteamLocator steamLocator, IViewModelLocator vmLocator)
-		{
-			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-			_processManagementService = processManagementService ?? throw new ArgumentNullException(nameof(processManagementService));
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
-			_steamLocator = steamLocator ?? throw new ArgumentNullException(nameof(steamLocator));
-			_vmLocator = vmLocator ?? throw new ArgumentNullException(nameof(vmLocator));
+    public MainViewModel(IApplicationConfigurationService configurationService, IProcessManagementService processManagementService, IFileSystemService fileSystem, ISteamLocator steamLocator, IViewModelLocator vmLocator)
+    {
+        _configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+        _processManagementService = processManagementService ?? throw new ArgumentNullException(nameof(processManagementService));
+        _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+        _steamLocator = steamLocator ?? throw new ArgumentNullException(nameof(steamLocator));
+        _vmLocator = vmLocator ?? throw new ArgumentNullException(nameof(vmLocator));
 
-			Servers = new ObservableCollection<ServerInformation>();
-		}
+        Servers = new ObservableCollection<ServerInformation>();
+    }
 
-		public ObservableCollection<ServerInformation> Servers { get; set; }
+    public ObservableCollection<ServerInformation> Servers { get; set; }
 
-		public IWindowService EditServerWindow => GetService<IWindowService>("EditServerWindow");
+    public IWindowService EditServerWindow => GetService<IWindowService>("EditServerWindow");
 
-		public IWindowService EnterPromptWindow => GetService<IWindowService>("EnterPromptWindow");
+    public IWindowService EnterPromptWindow => GetService<IWindowService>("EnterPromptWindow");
 
-		public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
+    public IWindowService ApplicationSettingsWindow => GetService<IWindowService>("ApplicationSettingsWindow");
 
-		public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
-		
-		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
-		
-		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
-		
-		public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
-		
-		public ICommand CopyModList => new DelegateCommand(ExecuteCopyModList);
+    public IMessageBoxService MessageBoxService => GetService<IMessageBoxService>();
 
-		public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
+    public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 
-		public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
+    public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 
-		public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame, s => s != null);
+    public ICommand SettingsDialog => new DelegateCommand(ExecuteSettingsDialog);
 
-		public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer, s => s != null);
+    public ICommand CopyModList => new DelegateCommand(ExecuteCopyModList);
 
-		public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer, s => s != null);
+    public ICommand CloseApplication => new DelegateCommand(ExecuteCloseApplication);
 
-		private void ExecuteCloseApplication() => CurrentWindowService?.Close();
+    public ICommand AddServer => new DelegateCommand(() => ExecuteEditServer(new ServerInformation()));
 
-		public ServerInformation SelectedServer
-		{
-			get => GetProperty(() => SelectedServer);
-			set => SetProperty(() => SelectedServer, value);
-		}
+    public ICommand<ServerInformation> RunGame => new DelegateCommand<ServerInformation>(ExecuteRunGame, s => s != null);
 
-		private void ExecuteInitialize()
-		{
-			var doSave = false;
-			_config = _configurationService.LoadConfiguration();
+    public ICommand<ServerInformation> EditServer => new DelegateCommand<ServerInformation>(ExecuteEditServer, s => s != null);
 
-			if (string.IsNullOrWhiteSpace(_config.SteamExecutable))
-			{
-				_config.SteamExecutable = _steamLocator.GetSteamPath();
-				doSave = true;
-			}
+    public ICommand<ServerInformation> RemoveServer => new DelegateCommand<ServerInformation>(ExecuteRemoveServer, s => s != null);
 
-			if (string.IsNullOrWhiteSpace(_config.GameFolder))
-			{
-				_config.GameFolder = _steamLocator.GetAppPath(440900);
-				doSave = true;
-			}
+    private void ExecuteCloseApplication() => CurrentWindowService?.Close();
 
-			if (doSave)
-			{
-				_configurationService.SaveConfiguration(_config);
-			}
+    public ServerInformation SelectedServer
+    {
+        get => GetProperty(() => SelectedServer);
+        set => SetProperty(() => SelectedServer, value);
+    }
 
-			Servers.Clear();
-			foreach (var information in _config.ServerInformation)
-			{
-				Servers.Add(information);
-			}
-		}
+    private void ExecuteInitialize()
+    {
+        var doSave = false;
+        _config = _configurationService.LoadConfiguration();
 
-		private void ExecuteRunGame(ServerInformation arg)
-		{
-			if (MessageBoxService.Accept(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
-			{
-				_processManagementService.StartProcess(_config.SteamExecutable, _config.GameFolder, arg);
-			}
-		}
+        if (string.IsNullOrWhiteSpace(_config.SteamExecutable))
+        {
+            _config.SteamExecutable = _steamLocator.GetSteamPath();
+            doSave = true;
+        }
 
-		private void ExecuteCopyModList()
-		{
-			var vm = _vmLocator.ResolveViewModel<EnterPromptViewModel>();
-			if (vm != null)
-			{
-				vm.Prompt = Localization.Localization.EnterModListNamePrompt;
-				vm.Value = "";
+        if (string.IsNullOrWhiteSpace(_config.GameFolder))
+        {
+            _config.GameFolder = _steamLocator.GetAppPath(440900);
+            doSave = true;
+        }
 
-				EnterPromptWindow.Show("", vm);
-				var result = vm.Value;
+        if (doSave)
+        {
+            _configurationService.SaveConfiguration(_config);
+        }
 
-				if (!string.IsNullOrWhiteSpace(result))
-				{
-					// ReSharper disable once StringLiteralTypo
-					var sourcePath = _steamLocator.GetAppPath(440900, @"servermodlist.txt");
-					if (!string.IsNullOrWhiteSpace(sourcePath) && _fileSystem.FileExists(sourcePath))
-					{
+        Servers.Clear();
+        foreach (var information in _config.ServerInformation)
+        {
+            Servers.Add(information);
+        }
+    }
 
-						var modPath = _steamLocator.GetAppPath(440900, "mods");
-						if (!_fileSystem.PathExists(modPath))
-						{
-							_fileSystem.CreatePath(modPath);
-						}
+    private void ExecuteRunGame(ServerInformation arg)
+    {
+        if (MessageBoxService.Accept(Localization.Localization.StartGame, Localization.Localization.AreYouSureYouWishToStart))
+        {
+            _processManagementService.StartProcess(_config.SteamExecutable, _config.GameFolder, arg);
+        }
+    }
 
-						if (!result.EndsWith(".txt"))
-						{
-							result += ".txt";
-						}
+    private void ExecuteCopyModList()
+    {
+        //var vm = _vmLocator.ResolveViewModel<EnterPromptViewModel>();
+        //if (vm != null)
+        //{
+        //	vm.Prompt = Localization.Localization.EnterModListNamePrompt;
+        //	vm.Value = "";
 
-						var destinationPath = _fileSystem.GetFullPath(modPath, result);
-						var doAction = !(_fileSystem.FileExists(destinationPath) && !MessageBoxService.Accept(Localization.Localization.FileExists,
-								                 string.Format(Localization.Localization.OverwriteDestinationFile, destinationPath)));
+        //	EnterPromptWindow.Show("", vm);
+        //	var result = vm.Value;
 
-						if (doAction)
-						{
-							_fileSystem.CopyFile(sourcePath, destinationPath);
+        //	if (!string.IsNullOrWhiteSpace(result))
+        //	{
+        //		// ReSharper disable once StringLiteralTypo
+        //		var sourcePath = _steamLocator.GetAppPath(440900, @"servermodlist.txt");
+        //		if (!string.IsNullOrWhiteSpace(sourcePath) && _fileSystem.FileExists(sourcePath))
+        //		{
 
-							MessageBoxService.Information(
-									Localization.Localization.ActionCompleted,
-									string.Format(Localization.Localization.ServerModListCopied, destinationPath));
-						}
-						else
-						{
-							MessageBoxService.Warning(
-									Localization.Localization.Warning, 
-									Localization.Localization.ActionNotCompleted);
-						}
-					}
-				}
-			}
-		}
+        //			var modPath = _steamLocator.GetAppPath(440900, "mods");
+        //			if (!_fileSystem.PathExists(modPath))
+        //			{
+        //				_fileSystem.CreatePath(modPath);
+        //			}
 
-		private void ExecuteSettingsDialog()
-		{
-			ApplicationSettingsWindow?.Show(null);
-			ExecuteInitialize();
-		}
+        //			if (!result.EndsWith(".txt"))
+        //			{
+        //				result += ".txt";
+        //			}
 
-		private void ExecuteEditServer(ServerInformation arg)
-		{
-			EditServerWindow?.Show(null, arg, this);
-			ExecuteInitialize();
-		}
+        //			var destinationPath = _fileSystem.GetFullPath(modPath, result);
+        //			var doAction = !(_fileSystem.FileExists(destinationPath) && !MessageBoxService.Accept(Localization.Localization.FileExists,
+        //					                 string.Format(Localization.Localization.OverwriteDestinationFile, destinationPath)));
 
-		private void ExecuteRemoveServer(ServerInformation arg)
-		{
-			if (MessageBoxService.Accept(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
-			{
-				var result = _config.ServerInformation.FirstOrDefault(i => i.Equals(arg));
-				if (result != null)
-				{
-					Servers.Remove(result);
-					_config.ServerInformation.Remove(result);
-					_configurationService.SaveConfiguration(_config);
-				}
-			}
-		}
+        //			if (doAction)
+        //			{
+        //				_fileSystem.CopyFile(sourcePath, destinationPath);
 
-		private readonly DefaultDropHandler _dropHandler = new DefaultDropHandler();
-		
-		void IDropTarget.DragOver(IDropInfo dropInfo) => _dropHandler.DragOver(dropInfo);
+        //				MessageBoxService.Information(
+        //						Localization.Localization.ActionCompleted,
+        //						string.Format(Localization.Localization.ServerModListCopied, destinationPath));
+        //			}
+        //			else
+        //			{
+        //				MessageBoxService.Warning(
+        //						Localization.Localization.Warning, 
+        //						Localization.Localization.ActionNotCompleted);
+        //			}
+        //		}
+        //	}
+        //}
+    }
 
-		void IDropTarget.Drop(IDropInfo dropInfo)
-		{
-			_dropHandler.Drop(dropInfo);
+    private void ExecuteSettingsDialog()
+    {
+        ApplicationSettingsWindow?.Show(null);
+        ExecuteInitialize();
+    }
 
-			_config.ServerInformation.Clear();
-			_config.ServerInformation.AddRange(Servers);
-			_configurationService.SaveConfiguration(_config);
-		}
-	}
+    private void ExecuteEditServer(ServerInformation arg)
+    {
+        EditServerWindow?.Show(null, arg, this);
+        ExecuteInitialize();
+    }
+
+    private void ExecuteRemoveServer(ServerInformation arg)
+    {
+        if (MessageBoxService.Accept(Localization.Localization.DeleteServerEntryCaption, Localization.Localization.DeleteServerEntryMessage))
+        {
+            var result = _config.ServerInformation.FirstOrDefault(i => i.Equals(arg));
+            if (result != null)
+            {
+                Servers.Remove(result);
+                _config.ServerInformation.Remove(result);
+                _configurationService.SaveConfiguration(_config);
+            }
+        }
+    }
+
+    private readonly DefaultDropHandler _dropHandler = new DefaultDropHandler();
+
+    void IDropTarget.DragOver(IDropInfo dropInfo) => _dropHandler.DragOver(dropInfo);
+
+    void IDropTarget.Drop(IDropInfo dropInfo)
+    {
+        _dropHandler.Drop(dropInfo);
+
+        _config.ServerInformation.Clear();
+        _config.ServerInformation.AddRange(Servers);
+        _configurationService.SaveConfiguration(_config);
+    }
 }

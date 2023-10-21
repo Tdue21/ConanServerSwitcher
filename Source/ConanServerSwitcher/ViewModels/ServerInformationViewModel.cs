@@ -28,115 +28,114 @@ using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
 
-namespace ConanServerSwitcher.ViewModels
+namespace ConanServerSwitcher.ViewModels;
+
+public class ServerInformationViewModel : ViewModelBase
 {
-	public class ServerInformationViewModel : ViewModelBase
-	{
-		private readonly IApplicationConfigurationService _configurationService;
-		private ApplicationConfiguration _config;
+    private readonly IApplicationConfigurationService _configurationService;
+    private ApplicationConfiguration _config;
 
-		public ServerInformationViewModel(IApplicationConfigurationService configurationService)
-		{
-			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-		}
+    public ServerInformationViewModel(IApplicationConfigurationService configurationService)
+    {
+        _configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+    }
 
-		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+    public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 
-		public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
+    public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
 
-		public Guid ServerId { get; set; }
+    public Guid ServerId { get; set; }
 
-		public string ServerName 
-		{ 
-			get => GetProperty(() => ServerName); 
-			set => SetProperty(() => ServerName, value);
-		}
-		
-		public string ServerAddress
-		{
-			get => GetProperty(() => ServerAddress);
-			set => SetProperty(() => ServerAddress, value);
-		}
+    public string ServerName
+    {
+        get => GetProperty(() => ServerName);
+        set => SetProperty(() => ServerName, value);
+    }
 
-		public string ServerPort
-		{
-			get => GetProperty(() => ServerPort);
-			set => SetProperty(() => ServerPort, value);
-		}
+    public string ServerAddress
+    {
+        get => GetProperty(() => ServerAddress);
+        set => SetProperty(() => ServerAddress, value);
+    }
 
-		public string Password
-		{
-			get => GetProperty(() => Password);
-			set => SetProperty(() => Password, value);
-		}
+    public string ServerPort
+    {
+        get => GetProperty(() => ServerPort);
+        set => SetProperty(() => ServerPort, value);
+    }
 
-		public string ModListPath
-		{
-			get => GetProperty(() => ModListPath);
-			set => SetProperty(() => ModListPath, value);
-		}
+    public string Password
+    {
+        get => GetProperty(() => Password);
+        set => SetProperty(() => Password, value);
+    }
 
-		public bool UseBattleEye
-		{
-			get => GetProperty(() => UseBattleEye);
-			set => SetProperty(() => UseBattleEye, value);
-		}
+    public string ModListPath
+    {
+        get => GetProperty(() => ModListPath);
+        set => SetProperty(() => ModListPath, value);
+    }
 
-		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
+    public bool UseBattleEye
+    {
+        get => GetProperty(() => UseBattleEye);
+        set => SetProperty(() => UseBattleEye, value);
+    }
 
-		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
-		
-		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+    public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 
-		public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
-															 
-		private void ExecuteInitialize() => _config = _configurationService.LoadConfiguration();
+    public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
 
-		private void ExecuteDialogAccept()
-		{
-			var original = _config.ServerInformation.FirstOrDefault(s => s.Id.Equals(ServerId));
-			if(original == null)
-			{
-				original = new ServerInformation();
-				_config.ServerInformation.Add(original);
-			}
+    public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
 
-			original.Name = ServerName;
-			original.Address = ServerAddress;
-			original.Port = ServerPort;
-			original.Password = Password;
-			original.BattlEye = UseBattleEye;
-			original.ModList = ModListPath;
+    public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
 
-			_configurationService.SaveConfiguration(_config);
+    private void ExecuteInitialize() => _config = _configurationService.LoadConfiguration();
 
-			CurrentWindowService?.Close();
-		}
+    private void ExecuteDialogAccept()
+    {
+        var original = _config.ServerInformation.FirstOrDefault(s => s.Id.Equals(ServerId));
+        if (original == null)
+        {
+            original = new ServerInformation();
+            _config.ServerInformation.Add(original);
+        }
 
-		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
+        original.Name = ServerName;
+        original.Address = ServerAddress;
+        original.Port = ServerPort;
+        original.Password = Password;
+        original.BattlEye = UseBattleEye;
+        original.ModList = ModListPath;
 
-		private void ExecuteBrowseForFile()
-		{
-			if (OpenFileDialogService.ShowDialog())
-			{
-				ModListPath = OpenFileDialogService.GetFullFileName();
-			}
-		}
+        _configurationService.SaveConfiguration(_config);
 
-		protected override void OnParameterChanged(object parameter)
-		{
-			base.OnParameterChanged(parameter);
+        CurrentWindowService?.Close();
+    }
 
-			if (parameter is ServerInformation server)
-			{
-				ServerId = server.Id;
-				ServerName = server.Name;
-				ServerAddress = server.Address;
-				ServerPort = server.Port;
-				ModListPath = server.ModList;
-				Password = server.Password;
-				UseBattleEye = server.BattlEye;
-			}
-		}
-	}
+    private void ExecuteDialogCancel() => CurrentWindowService?.Close();
+
+    private void ExecuteBrowseForFile()
+    {
+        if (OpenFileDialogService.ShowDialog())
+        {
+            ModListPath = OpenFileDialogService.GetFullFileName();
+        }
+    }
+
+    protected override void OnParameterChanged(object parameter)
+    {
+        base.OnParameterChanged(parameter);
+
+        if (parameter is ServerInformation server)
+        {
+            ServerId = server.Id;
+            ServerName = server.Name;
+            ServerAddress = server.Address;
+            ServerPort = server.Port;
+            ModListPath = server.ModList;
+            Password = server.Password;
+            UseBattleEye = server.BattlEye;
+        }
+    }
 }

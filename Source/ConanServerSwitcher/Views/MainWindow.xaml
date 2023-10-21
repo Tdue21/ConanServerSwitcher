@@ -1,16 +1,17 @@
-﻿<RibbonWindow x:Class="ConanServerSwitcher.MainWindow"
+﻿<RibbonWindow x:Class="ConanServerSwitcher.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:viewModels="clr-namespace:ConanServerSwitcher.ViewModels"
         xmlns:views="clr-namespace:ConanServerSwitcher.Views"
         xmlns:ln="clr-namespace:ConanServerSwitcher.Localization"
 		xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.WPF.DragDrop"
         mc:Ignorable="d" Height="400" Width="500"
         Title="{x:Static ln:Localization.MainWindowTitle}"
 		WindowStartupLocation="CenterScreen"
-        DataContext="{Binding MainViewModel, Source={StaticResource DependencyInjector}}"
+        d:DataContext="{d:DesignInstance {x:Type viewModels:MainViewModel}, IsDesignTimeCreatable=False}"
         >
 	<Window.Resources>
 		<ControlTemplate x:Key="ActionButtons" TargetType="{x:Type Button}">

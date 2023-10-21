@@ -21,8 +21,8 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-namespace ConanServerSwitcher.Interfaces
-{
+namespace ConanServerSwitcher.Interfaces;
+
 	public interface ISteamLocator
 	{
 		string GetSteamPath();
@@ -31,4 +31,3 @@ namespace ConanServerSwitcher.Interfaces
 		
 		string GetAppPath(int gameId, params string[] subFolders);
 	}
-}

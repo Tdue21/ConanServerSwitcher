@@ -23,10 +23,9 @@
 
 using ConanServerSwitcher.Models;
 
-namespace ConanServerSwitcher.Interfaces
+namespace ConanServerSwitcher.Interfaces;
+
+public interface IProcessManagementService
 {
-    public interface IProcessManagementService
-    {
-        bool StartProcess(string executable, string gameFolder, ServerInformation args);
-    }
+    bool StartProcess(string executable, string gameFolder, ServerInformation args);
 }

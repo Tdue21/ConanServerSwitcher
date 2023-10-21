@@ -21,73 +21,69 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-// ReSharper disable StringLiteralsWordIsNotInDictionary
-// ReSharper disable NonReadonlyMemberInGetHashCode
-
 using System;
 using System.Text;
 using ConanServerSwitcher.Services;
 using Newtonsoft.Json;
 
-namespace ConanServerSwitcher.Models
+namespace ConanServerSwitcher.Models;
+
+/// <summary>
+/// Class representing a single item in the list of servers registered in the application.
+/// </summary>
+public class ServerInformation : ICloneable
 {
-	/// <summary>
-	/// Class representing a single item in the list of servers registered in the application.
-	/// </summary>
-	public class ServerInformation : ICloneable
-	{
-		public ServerInformation()
-		{
-			Id = Guid.NewGuid();
-			Password = string.Empty;
-			BattlEye = true;
-		}
+    public ServerInformation()
+    {
+        Id = Guid.NewGuid();
+        Password = string.Empty;
+        BattlEye = true;
+    }
 
-		/// <summary>Gets or set the unique identifier of the object.</summary>
-		public Guid Id { get; set; }
+    /// <summary>Gets or set the unique identifier of the object.</summary>
+    public Guid Id { get; set; }
 
-		/// <summary>Gets or sets the name of the server.</summary>
-		public string Name { get; set; }
-		
-		/// <summary>Gets or sets the address of the server.</summary>
-		public string Address { get; set; }
-		
-		/// <summary>Gets or sets the game port for the server.</summary>
-		public string Port { get; set; }
-		
-		/// <summary>Gets or sets the path to the server's modlist.</summary>
-		public string ModList { get; set; }
-		
-		/// <summary>Gets or sets the server password. </summary>
-		[JsonConverter(typeof(JsonEncryptionConverter))]
-		public string Password { get; set; }
-		
-		/// <summary>Gets or sets whether to use BattlEye to connect to server.</summary>
-		public bool BattlEye { get; set; }
+    /// <summary>Gets or sets the name of the server.</summary>
+    public string Name { get; set; }
 
-		object ICloneable.Clone() => MemberwiseClone();
-		
-		/// <summary></summary>
-		public ServerInformation Clone() => (ServerInformation) MemberwiseClone();
+    /// <summary>Gets or sets the address of the server.</summary>
+    public string Address { get; set; }
 
-		private bool Equals(ServerInformation other) => Id == other.Id;
+    /// <summary>Gets or sets the game port for the server.</summary>
+    public string Port { get; set; }
 
-		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && 
-		                                           (ReferenceEquals(this, obj) || 
-		                                            obj.GetType() == GetType() && 
-		                                            Equals((ServerInformation) obj));
+    /// <summary>Gets or sets the path to the server's modlist.</summary>
+    public string ModList { get; set; }
 
-		public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
+    /// <summary>Gets or sets the server password. </summary>
+    [JsonConverter(typeof(JsonEncryptionConverter))]
+    public string Password { get; set; }
 
-		/// <summary></summary>
-		public string ToArgs() =>
-				new StringBuilder()
-						.Append("-appLaunch 440900 ")
-						//.Append($"+connect {Address}:{Port} ")
-						.Append(BattlEye ? "-BattlEye " : "")
-						.Append($"-serverpwd \"{Password}\" ")
-						.Append($"-serverconnect \"{Address}:{Port}\" ")
-						//.Append($"-modlist=\"{ModList}\" ")
-						.ToString();
-	}
+    /// <summary>Gets or sets whether to use BattlEye to connect to server.</summary>
+    public bool BattlEye { get; set; }
+
+    object ICloneable.Clone() => MemberwiseClone();
+
+    /// <summary></summary>
+    public ServerInformation Clone() => (ServerInformation)MemberwiseClone();
+
+    private bool Equals(ServerInformation other) => Id == other.Id;
+
+    public override bool Equals(object obj) => !ReferenceEquals(null, obj) &&
+                                               (ReferenceEquals(this, obj) ||
+                                                obj.GetType() == GetType() &&
+                                                Equals((ServerInformation)obj));
+
+    public override int GetHashCode() => Name != null ? Name.GetHashCode() : 0;
+
+    /// <summary></summary>
+    public string ToArgs() =>
+            new StringBuilder()
+                    .Append("-appLaunch 440900 ")
+                    //.Append($"+connect {Address}:{Port} ")
+                    .Append(BattlEye ? "-BattlEye " : "")
+                    .Append($"-serverpwd \"{Password}\" ")
+                    .Append($"-serverconnect \"{Address}:{Port}\" ")
+                    //.Append($"-modlist=\"{ModList}\" ")
+                    .ToString();
 }

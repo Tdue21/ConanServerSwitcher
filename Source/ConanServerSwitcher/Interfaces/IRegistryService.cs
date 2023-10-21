@@ -21,10 +21,9 @@
 // * IN THE SOFTWARE.
 // ****************************************************************************
 
-namespace ConanServerSwitcher.Interfaces
+namespace ConanServerSwitcher.Interfaces;
+
+public interface IRegistryService
 {
-	public interface IRegistryService
-	{
-		object GetValue(string path, string key, object defaultValue = null);
-	}
+    object GetValue(string path, string key, object defaultValue = null);
 }

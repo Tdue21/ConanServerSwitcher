@@ -25,21 +25,20 @@ using System.Collections.Generic;
 using System.Globalization;
 using ConanServerSwitcher.Models;
 
-namespace ConanServerSwitcher.Interfaces
+namespace ConanServerSwitcher.Interfaces;
+
+public interface IApplicationConfigurationService
 {
-	public interface IApplicationConfigurationService
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		ApplicationConfiguration LoadConfiguration();
+    /// <summary>
+    /// 
+    /// </summary>
+    ApplicationConfiguration LoadConfiguration();
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="data"></param>
-		void SaveConfiguration(ApplicationConfiguration data);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    void SaveConfiguration(ApplicationConfiguration data);
 
-		List<CultureInfo> GetAvailableCultures();
-	}
+    List<CultureInfo> GetAvailableCultures();
 }

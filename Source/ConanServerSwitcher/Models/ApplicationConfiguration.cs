@@ -24,41 +24,42 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-// ReSharper disable NonReadonlyMemberInGetHashCode
 
-namespace ConanServerSwitcher.Models
+namespace ConanServerSwitcher.Models;
+
+public class ApplicationConfiguration : ICloneable
 {
-	public class ApplicationConfiguration : ICloneable
-	{
-		public ApplicationConfiguration()
-		{
-			ServerInformation = new List<ServerInformation>();
-			SelectedCulture = "en";
-		}
+    public ApplicationConfiguration()
+    {
+        ServerInformation = new List<ServerInformation>();
+        SelectedCulture = "en";
+    }
 
-		public string SteamExecutable { get; set; }
+    public string SteamExecutable { get; set; }
 
-		public string GameFolder { get; set; }
+    public string GameFolder { get; set; }
 
-		public string SelectedCulture { get; set; }
+    public string SelectedCulture { get; set; }
 
-		public List<ServerInformation> ServerInformation { get; }
+    public List<ServerInformation> ServerInformation { get; }
 
-		object ICloneable.Clone() => MemberwiseClone();
+    object ICloneable.Clone() => MemberwiseClone();
 
-		public ApplicationConfiguration Clone() => (ApplicationConfiguration)MemberwiseClone();
+    public ApplicationConfiguration Clone() => (ApplicationConfiguration)MemberwiseClone();
 
-		private bool Equals(ApplicationConfiguration other)
-		{
-			var result = SteamExecutable == other.SteamExecutable && GameFolder == other.GameFolder;
-			var first = ServerInformation.Except(other.ServerInformation);
-			var second = other.ServerInformation.Except(ServerInformation);
+    private bool Equals(ApplicationConfiguration other)
+    {
+        var result = SteamExecutable == other.SteamExecutable && GameFolder == other.GameFolder;
+        var first = ServerInformation.Except(other.ServerInformation);
+        var second = other.ServerInformation.Except(ServerInformation);
 
-			return result && !first.Any() && !second.Any();
-		}
+        return result && !first.Any() && !second.Any();
+    }
 
-		public override bool Equals(object obj) => !ReferenceEquals(null, obj) && (ReferenceEquals(this, obj) || obj.GetType() == GetType() && Equals((ApplicationConfiguration) obj));
+    public override bool Equals(object obj) =>
+        !ReferenceEquals(null, obj)
+        && (ReferenceEquals(this, obj) || obj.GetType() == GetType()
+        && Equals((ApplicationConfiguration)obj));
 
-		public override int GetHashCode() => HashCode.Combine(SteamExecutable, GameFolder, ServerInformation);
-	}
+    public override int GetHashCode() => HashCode.Combine(SteamExecutable, GameFolder, ServerInformation);
 }

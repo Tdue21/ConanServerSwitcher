@@ -26,40 +26,39 @@ using System.IO;
 using System.Windows;
 using DevExpress.Mvvm;
 
-namespace ConanServerSwitcher
+namespace ConanServerSwitcher;
+
+public static class ExtensionsMethods
 {
-	public static class ExtensionsMethods
-	{
-		public static bool IsValidPath(this string path)
-		{
-			FileInfo fi = null;
-			try
-			{
-				var uri = new Uri(path, UriKind.Absolute);
-				if (uri.IsFile && uri.Scheme == "file")
-				{
-					fi = new FileInfo(path);
-				}
+    public static bool IsValidPath(this string path)
+    {
+        FileInfo fi = null;
+        try
+        {
+            var uri = new Uri(path, UriKind.Absolute);
+            if (uri.IsFile && uri.Scheme == "file")
+            {
+                fi = new FileInfo(path);
+            }
 
-			}
-			catch (ArgumentException) { }
-			catch (UriFormatException) { }
-			catch (PathTooLongException) { }
-			catch (NotSupportedException) { }
+        }
+        catch (ArgumentException) { }
+        catch (UriFormatException) { }
+        catch (PathTooLongException) { }
+        catch (NotSupportedException) { }
 
-			return !ReferenceEquals(fi, null);
-		}
+        return !ReferenceEquals(fi, null);
+    }
 
-		public static T ResolveViewModel<T>(this IViewModelLocator vml) => (T)vml?.ResolveViewModel(typeof(T).Name);
+    //public static T ResolveViewModel<T>(this IViewModelLocator vml) => (T)vml?.ResolveViewModel(typeof(T).Name);
 
-		public static void Warning(this IMessageBoxService messageBox, string caption, string message) => 
-				messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Warning);
+    public static void Warning(this IMessageBoxService messageBox, string caption, string message) =>
+            messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Warning);
 
-		public static void Information(this IMessageBoxService messageBox, string caption, string message) =>
-				messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Information);
+    public static void Information(this IMessageBoxService messageBox, string caption, string message) =>
+            messageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Information);
 
-		public static bool Accept(this IMessageBoxService messageBox, string caption, string message) =>
-				messageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+    public static bool Accept(this IMessageBoxService messageBox, string caption, string message) =>
+            messageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
 
-	}
 }

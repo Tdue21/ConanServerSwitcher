@@ -31,95 +31,94 @@ using ConanServerSwitcher.Interfaces;
 using ConanServerSwitcher.Models;
 using DevExpress.Mvvm;
 
-namespace ConanServerSwitcher.ViewModels
+namespace ConanServerSwitcher.ViewModels;
+
+public class ApplicationSettingsViewModel : ViewModelBase
 {
-	public class ApplicationSettingsViewModel : ViewModelBase
-	{
-		private readonly IApplicationConfigurationService _configurationService;
-		private ApplicationConfiguration _config;
+    private readonly IApplicationConfigurationService _configurationService;
+    private ApplicationConfiguration _config;
 
-		public ApplicationSettingsViewModel(IApplicationConfigurationService configurationService)
-		{
-			_configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
-		}
-		
-		public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
+    public ApplicationSettingsViewModel(IApplicationConfigurationService configurationService)
+    {
+        _configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+    }
 
-		public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
+    public ICommand Initialize => new DelegateCommand(ExecuteInitialize);
 
-		public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
-		
-		public IFolderBrowserDialogService FolderBrowserDialogService => GetService<IFolderBrowserDialogService>();
+    public ICurrentWindowService CurrentWindowService => GetService<ICurrentWindowService>();
 
-		public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
+    public IOpenFileDialogService OpenFileDialogService => GetService<IOpenFileDialogService>();
 
-		public ICommand BrowseForFolder => new DelegateCommand(ExecuteBrowseForFolder);
+    public IFolderBrowserDialogService FolderBrowserDialogService => GetService<IFolderBrowserDialogService>();
 
-		public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
+    public ICommand BrowseForFile => new DelegateCommand(ExecuteBrowseForFile);
 
-		public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
+    public ICommand BrowseForFolder => new DelegateCommand(ExecuteBrowseForFolder);
 
-		public ObservableCollection<CultureInfo> AvailableCultures
-		{
-			get => GetProperty(() => AvailableCultures);
-			set => SetProperty(() => AvailableCultures, value);
-		}
+    public ICommand DialogAccept => new DelegateCommand(ExecuteDialogAccept);
 
-		public CultureInfo SelectedCulture
-		{
-			get => GetProperty(() => SelectedCulture);
-			set => SetProperty(() => SelectedCulture, value);
-		}
-		public string SteamExe 
-		{ 
-			get => GetProperty(() => SteamExe); 
-			set => SetProperty(() => SteamExe, value);
-		}
+    public ICommand DialogCancel => new DelegateCommand(ExecuteDialogCancel);
 
-		public string GameFolder
-		{
-			get => GetProperty(() => GameFolder);
-			set => SetProperty(() => GameFolder, value);
-		}
+    public ObservableCollection<CultureInfo> AvailableCultures
+    {
+        get => GetProperty(() => AvailableCultures);
+        set => SetProperty(() => AvailableCultures, value);
+    }
 
-		private void ExecuteInitialize()
-		{
-			_config = _configurationService.LoadConfiguration();
+    public CultureInfo SelectedCulture
+    {
+        get => GetProperty(() => SelectedCulture);
+        set => SetProperty(() => SelectedCulture, value);
+    }
+    public string SteamExe
+    {
+        get => GetProperty(() => SteamExe);
+        set => SetProperty(() => SteamExe, value);
+    }
 
-			AvailableCultures = new ObservableCollection<CultureInfo>(_configurationService.GetAvailableCultures());
+    public string GameFolder
+    {
+        get => GetProperty(() => GameFolder);
+        set => SetProperty(() => GameFolder, value);
+    }
 
-			SelectedCulture =
-					AvailableCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == _config.SelectedCulture);
-			SteamExe = _config.SteamExecutable;
-			GameFolder = _config.GameFolder;
-		}
+    private void ExecuteInitialize()
+    {
+        _config = _configurationService.LoadConfiguration();
 
-		private void ExecuteBrowseForFile()
-		{
-			if (OpenFileDialogService.ShowDialog())
-			{
-				SteamExe = OpenFileDialogService.GetFullFileName();
-			}
-		}
+        AvailableCultures = new ObservableCollection<CultureInfo>(_configurationService.GetAvailableCultures());
 
-		private void ExecuteBrowseForFolder()
-		{
-			if (FolderBrowserDialogService.ShowDialog())
-			{
-				GameFolder = FolderBrowserDialogService.ResultPath;
-			}
-		}
+        SelectedCulture =
+                AvailableCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == _config.SelectedCulture);
+        SteamExe = _config.SteamExecutable;
+        GameFolder = _config.GameFolder;
+    }
 
-		private void ExecuteDialogAccept()
-		{
-			_config.SteamExecutable = SteamExe;
-			_config.GameFolder = GameFolder;
-			_config.SelectedCulture = SelectedCulture.TwoLetterISOLanguageName;
-			_configurationService.SaveConfiguration(_config);
+    private void ExecuteBrowseForFile()
+    {
+        if (OpenFileDialogService.ShowDialog())
+        {
+            SteamExe = OpenFileDialogService.GetFullFileName();
+        }
+    }
 
-			CurrentWindowService?.Close();
-		}
+    private void ExecuteBrowseForFolder()
+    {
+        if (FolderBrowserDialogService.ShowDialog())
+        {
+            GameFolder = FolderBrowserDialogService.ResultPath;
+        }
+    }
 
-		private void ExecuteDialogCancel() => CurrentWindowService?.Close();
-	}
+    private void ExecuteDialogAccept()
+    {
+        _config.SteamExecutable = SteamExe;
+        _config.GameFolder = GameFolder;
+        _config.SelectedCulture = SelectedCulture.TwoLetterISOLanguageName;
+        _configurationService.SaveConfiguration(_config);
+
+        CurrentWindowService?.Close();
+    }
+
+    private void ExecuteDialogCancel() => CurrentWindowService?.Close();
 }

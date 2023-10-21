@@ -23,10 +23,9 @@
 
 using DevExpress.Mvvm.UI;
 
-namespace ConanServerSwitcher.Services
+namespace ConanServerSwitcher.Services;
+
+public class DialogWindowService : WindowService
 {
-	public class DialogWindowService : WindowService
-	{
-		
-	}
+
 }
